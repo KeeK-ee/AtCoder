@@ -1,0 +1,27 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build AtCoder C++ File", // 他と被らないユニークな名前に変更
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-g",
+                "-std=c++20",
+                "-Wall",
+                "-I",
+                "${workspaceFolder}/ac-library-master",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}.exe"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        }
+    ]
+}
