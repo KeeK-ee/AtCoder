@@ -1,33 +1,85 @@
 #include <iostream>
 #include <vector>
-#include <numeric> // std::accumulate を使うために必要
+#include <string>
+#include <algorithm>
+#include <numeric>
+#include <cmath>
+#include <map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <functional>
+#include <ranges>
+#include <cctype>
+#include <iomanip>
+using namespace std;
+
+//#include "../../../ac-library-master/atcoder/dsu.hpp"
+//#include <atcoder/all>
+//using namespace atcoder;
+
+using ll = long long;
+using pii = pair<int, int>;
+using pll = pair<ll, ll>;
+using vi = vector<int>;
+using vl = vector<ll>;
+using vvi = vector<vi>;
+using vvl = vector<vl>;
+
+const ll INF = 1e18;
+const int MOD = 1000000007;
+const string LOWALP = "abcdefghijklmnopqrstuvwxyz";
+const string UPALP = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const int dx[4] = {-1,0,1,0};
+const int dy[4] = {0,1,0,-1}; // 4近傍、上右下左
+
+#define rep(i, a, n) for (int i = a; i < (int)(n); ++i)
+#define rrep(i, a, n) for (int i = (int)(n) - 1; i >= a; --i)
+#define all(x) (x).begin(), (x).end()
+#define sz(x) (int)(x).size()
+#define Yes cout << "Yes" << endl
+#define No cout << "No" << endl
+#define out(x) cout << x << "\n"
+
+template<class T> bool chmax(T &a, const T &b) {
+    if (a < b) { a = b; return true; }
+    return false;
+}
+template<class T> bool chmin(T &a, const T &b) {
+    if (a > b) { a = b; return true; }
+    return false;
+}
+
+void solve() {
+    string S;
+    cin >> S;
+    if(S=="red"){
+        out("SSS");
+    }
+    else if(S=="blue"){
+        out("FFF");
+    }
+    else if(S=="green"){
+        out("MMM");
+    }
+    else {
+        out("Unknown");
+    }
+}
 
 int main() {
-    // C++の標準入出力を高速化するための設定
-    std::ios_base::sync_with_stdio(false);
-    std::cin.tie(nullptr);
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    // テストケースが1つの場合
+    solve();
 
-    // 整数の個数 N を受け取る
-    int n;
-    std::cin >> n;
-
-    // N個の整数を格納するためのvector(動的配列)を用意
-    std::vector<int> a(n);
-
-    // forループを使ってN個の整数を順番に受け取る
-    for (int i = 0; i < n; ++i) {
-        std::cin >> a[i];
+    // テストケースが複数ある場合 (コメントアウトを外して使用)
+    /*
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
     }
-
-    // 合計値を格納する変数。オーバーフローを防ぐためlong long型で宣言
-    long long sum = 0;
-
-    // std::accumulate を使って vector a の全要素の合計を計算
-    // 第3引数の 0LL は、計算を long long 型で行うための初期値
-    sum = std::accumulate(a.begin(), a.end(), 0LL);
-
-    // 計算結果を出力
-    std::cout << sum << std::endl;
-
+    */
     return 0;
 }
