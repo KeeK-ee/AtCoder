@@ -52,10 +52,16 @@ template<class T> bool chmin(T &a, const T &b) {
 
 int A;
 
-bool isPal(string st){
-    //st（10進法）A進法で回文かどうか判定
-    ll llst = stoi(st);
-    
+bool isPal(ll st){
+    vl abase;
+    while(st>0){
+        abase.push_back(st%A);
+        st/=A;
+    }
+    rep(i, 0, sz(abase)/2){
+        if(abase[i]!=abase[sz(abase)-1-i])return false;
+    }
+    return true;
 }
 
 void solve() {
@@ -64,20 +70,31 @@ void solve() {
     ll ans=0;
     //N以下で10進数でもA進数でも回文のものの総和
     //10進回文数を全探索する
+
+    //1桁
+    rep(i, 1, 10){
+        if(i>N)break;
+        if(isPal((ll)i))ans+=i;
+    }
+    
     //偶数桁
-    rep(i, 1, 1e6+1){
+    rep(i, 1, 1e6){
         string sti = to_string(i);
         reverse(all(sti));
         string pal = to_string(i) + sti;
-        if(isPal(pal) && stoi(pal)<=N)ans+=stoi(pal);
+        ll palll = stoll(pal);
+        if(palll>N)break;
+        if(isPal(palll))ans+=palll;
     }
     //奇数桁
-    rep(i, 1, 1e6+1){
+    rep(i, 1, 1e5){
         rep(j, 0, 10){
             string sti = to_string(i);
             reverse(all(sti));
             string pal = to_string(i) + to_string(j) + sti;
-            if(isPal(pal) && stoi(pal)<=N)ans+=stoi(pal);
+            ll palll = stoll(pal);
+            if(palll>N)break;
+            if(isPal(palll))ans+=palll;
         }
     }
     out(ans);
@@ -86,14 +103,6 @@ void solve() {
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
-    // テストケースが1つの場合
     solve();
-
-    // テストケースが複数ある場合
-    // int t;
-    // cin >> t;
-    // while (t--) {
-    //     solve();
-    // }
     return 0;
 }
