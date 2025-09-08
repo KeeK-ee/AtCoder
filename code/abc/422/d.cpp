@@ -54,19 +54,32 @@ void solve() {
     int N;
     ll K;
     cin >> N >> K;
-    vector<ll> ans = {K};
+    vector<ll> dp;
+
+    dp.push_back(K);
     rep(i, 0, N){
-        vector<ll> tmp;
-        for(auto a : ans){
-            tmp.push_back(a/2);
-            tmp.push_back(a-a/2);
+        rep(j, 0, 1 << i){
+            dp.push_back(dp[(1 << i) - 1 + j]/2);
+            dp.push_back(dp[(1 << i) - 1 + j]-dp[(1 << i) - 1 + j]/2);
         }
-        ans = tmp;
     }
-    ll max = *max_element(all(ans));
-    ll min = *min_element(all(ans));
+    ll max=-1, min=2e18;
+    rep(i, sz(dp)-(1 << N), sz(dp)) chmax(max, dp[i]), chmin(min, dp[i]);
     out(max-min);
-    rep(i, 0, sz(ans)) cout << ans[i] << " ";
+    rep(i, sz(dp)-(1 << N), sz(dp)) cout << dp[i] << " ";
+
+    // rep(i, 0, N){
+    //     vector<ll> tmp;
+    //     for(auto a : ans){
+    //         tmp.push_back(a/2);
+    //         tmp.push_back(a-a/2);
+    //     }
+    //     ans = tmp;
+    // }
+    // ll max = *max_element(all(ans));
+    // ll min = *min_element(all(ans));
+    // out(max-min);
+    // rep(i, 0, sz(ans)) cout << ans[i] << " ";
 }
 
 int main() {
