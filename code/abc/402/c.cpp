@@ -51,25 +51,38 @@ template<class T> bool chmin(T &a, const T &b) {
 }
 
 void solve() {
-    int N, M;
-    cin >> N >> M;
+    int N, M; cin >> N >> M;
     vector<vector<int>> A(M);
+    vector<int> ingCnt(M);
     rep(i, 0, M){
-        int K;
-        cin >> K;
+        int K; cin >> K; ingCnt[i] = K;
         rep(j, 0, K){
-            int a;
-            cin >> a;
-            a--;
+            int a; cin >> a; a--;
             A[i].push_back(a);
         }
     }
     vector<int> B(N);
     rep(i, 0, N) {
-        int b; cin >> b; b--;
-        cin >> b;
+        int b; cin >> b; b--; 
+        B[i] = b;
     }
+
+    vector<vector<int>> ingToMeal(N);
+    rep(i, 0, M){
+        for(int a : A[i]){
+            ingToMeal[a].push_back(i);
+        }
+    }
+
     int ans = 0;
+    rep(i, 0, N){
+        //食材B[i]を克服した
+        for(int j: ingToMeal[B[i]]){
+            ingCnt[j]--;
+            if(ingCnt[j] == 0) ans++;
+        }
+        out(ans);
+    }
 }
 
 int main() {
