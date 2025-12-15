@@ -113,5 +113,8 @@
     "text_encoding": "cpp",
     "typeinfo": "cpp",
     "variant": "cpp"
-  }
+  },
+  "pasteImage.path": "${currentFileDir}/images",
+  "pasteImage.prefix": "./images/",
+  "pasteImage.forcePathSeparator": "/" // Windowsでもパス区切りを/にする
 }

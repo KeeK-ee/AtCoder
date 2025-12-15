@@ -15,7 +15,9 @@
 
 3.  **探索ループ**:
     * キュー `q` が空になるまで、以下の処理を繰り返す。
-        a. キューの先頭から頂点 `u` を取り出す (`u = q.front(); q.pop();`)。
+        a. キューの先頭から頂点 `u` を取り出す (`u = q.front(); q.pop();`)。"pasteImage.path": "${currentFileDir}/images",
+    "pasteImage.prefix": "./images/",
+    "pasteImage.forcePathSeparator": "/" // Windowsでもパス区切りを/にする
         b. `u` に隣接するすべての頂点 `v` について、以下を調べる。
             i. もし `v` が未訪問 (`dist[v] == -1`) ならば:
                 - `v` を訪問済みにする (`dist[v] = dist[u] + 1`)。
