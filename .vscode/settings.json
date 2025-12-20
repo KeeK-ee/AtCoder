@@ -116,5 +116,6 @@
   },
   "pasteImage.path": "${currentFileDir}/images",
   "pasteImage.prefix": "./images/",
-  "pasteImage.forcePathSeparator": "/" // Windowsでもパス区切りを/にする
+  "pasteImage.forcePathSeparator": "/",
+  "C_Cpp.errorSquiggles": "disabled" // Windowsでもパス区切りを/にする
 }
