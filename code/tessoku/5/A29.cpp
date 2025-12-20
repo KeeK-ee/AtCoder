@@ -51,11 +51,24 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 繰り返し二乗法(O(log_2(b)))
+ * p(底)が繰り返し二乗されていく
+ * p=a^(2^i), ans=a^b
+ * 指数部分(b)をi個右シフトして, 必要であれば答えに掛け算する
+ * bit全探索にかなり近い
+ * forが30までなのは, b<=10^9<2^30だから
+ */
 ll power(ll a, ll b, ll mod){
     ll p=a, ans=1;
     rep(i, 0, 30){
-        
+        if((b>>i)%2) {
+            ans *= p;
+            ans %= mod;
+        }
+        p = (p*p) % mod;       
     }
+    return ans;
 }
 
 void solve() {

@@ -51,6 +51,9 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 二分探索でkeyより小さい要素の数を数える
+ */
 void solve() {
     ll N, M; cin >> N >> M;
     vl A(N), B(M);
@@ -59,21 +62,11 @@ void solve() {
     sort(all(B));
     vl sumB(M+1); //Bの前から累積
     rep(i, 1, M+1) sumB[i] = sumB[i-1] + B[i-1];
-    vl rsumB(M+1); //Bの後ろから累積
-    reverse(all(B));
-    rep(i, 1, M+1) rsumB[i] = rsumB[i-1] + B[i-1];
-    reverse(all(B));
     ll ans=0;
-    // rep(i, 0, M+1) cout << sumB[i];
-    // cout << endl;
-    // rep(i, 0, M+1) cout << rsumB[i];
     rep(i, 0, N){
-        //i:fix
         auto it = lower_bound(all(B), A[i]);
-        ll cnt = it - B.begin(); //A[i]より小さいのがidx=cnt-1まで
-        // cout << cnt <<" ";
-        ans += A[i]*cnt-(sumB[cnt])+(rsumB[M-cnt])-A[i]*(M-cnt);
-        // cout << "ans:" << A[i]*cnt << "-" << (sumB[cnt]) << "+" << (rsumB[M-cnt]) << "-" <<  A[i]*(N-cnt) << "=" << ans << endl;
+        ll cnt = it - B.begin(); //A[i]より小さいのがcnt個
+        ans += A[i]*cnt-(sumB[cnt])+(sumB[M]-sumB[cnt])-A[i]*(M-cnt);
         ans %= MOD;
     }
     out(ans);
