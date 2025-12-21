@@ -51,6 +51,12 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * p+wの降順にソリを引かせる貪欲法
+ * - 全てのトナカイをソリに乗せる
+ * - トナカイ1匹にソリを引かせるごとにp[i]+w[i]だけ重さとパワーの差が縮まる
+ * - 上の操作を繰り返して, どのトナカイまでソリを引かせればよいか
+ */
 void solve() {
     ll N; cin >> N;
     vector<pair<ll, pair<ll, ll>>> p(N);
