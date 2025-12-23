@@ -1,0 +1,94 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <numeric>
+#include <cmath>
+#include <map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <functional>
+#include <ranges>
+#include <cctype>
+#include <iomanip>
+using namespace std;
+
+//#include "../../../ac-library-master/atcoder/dsu.hpp"
+//#include <atcoder/all>
+//using namespace atcoder;
+
+using ll = long long;
+using pii = pair<int, int>;
+using pll = pair<ll, ll>;
+using vi = vector<int>;
+using vl = vector<ll>;
+using vvi = vector<vi>;
+using vvl = vector<vl>;
+
+const ll INF = 1e18;
+const ll MOD = 1000000007;
+const string abc = "abcdefghijklmnopqrstuvwxyz";
+const string ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const int dx[4] = {-1,0,1,0};
+const int dy[4] = {0,1,0,-1}; // 4近傍、上右下左
+
+#define rep(i, a, n) for (ll i = a; i < (int)(n); ++i)
+#define rrep(i, a, n) for (ll i = (ll)(n) - 1; i >= a; --i)
+#define all(x) (x).begin(), (x).end()
+#define sz(x) (ll)(x).size()
+#define Yes cout << "Yes" << endl
+#define No cout << "No" << endl
+#define out(x) cout << x << "\n"
+#define fix cout << fixed <<  setprecision(10)
+
+template<class T> bool chmax(T &a, const T &b) {
+    if (a < b) { a = b; return true; }
+    return false;
+}
+template<class T> bool chmin(T &a, const T &b) {
+    if (a > b) { a = b; return true; }
+    return false;
+}
+
+/**
+ * 区間スケジューリング
+ * 貪欲法：1手先の最善手を選択し続ける
+ * 終了時刻が早い順で観られるものから観る
+ * - 作戦1：上演時間が短い方から
+ * - 作戦2：開始時刻が早い方から
+ * - 作戦3：終了時刻が早い方から
+ * 今回は作戦3が最適
+ */
+void solve() {
+    ll N; cin >> N;
+    vector<pll> LR(N);
+    rep(i, 0, N) cin >> LR[i].second >> LR[i].first;
+    sort(all(LR));
+    ll ans=0, t=0, idx=0;
+    while(idx<N && t<=86400){
+        if(LR[idx].second < t) {
+            idx++;
+            continue;
+        }
+        // LR[idx]を観る
+        t = LR[idx].first; 
+        idx++; ans++;
+    }
+    out(ans);
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    // テストケースが1つの場合
+    solve();
+
+    // テストケースが複数ある場合
+    // int t;
+    // cin >> t;
+    // while (t--) {
+    //     solve();
+    // }
+    return 0;
+}
