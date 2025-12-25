@@ -60,19 +60,24 @@ template<class T> bool chmin(T &a, const T &b) {
  * a*b=a'*b'*gcd(a, b)^2
  * ↔lcd(a, b)=a'*b'*gcd(a, b)=a*b/gcd(a, b)
  * つまり最小公倍数を求めるには最大公約数を求めればいい
+ * C++のSTLにgcdとlcmの関数がある
  */
-ll gcd(ll a, ll b){
-    while(a>=1&&b>=1){
-        if(a>=b) a = a%b;
-        else b = b%a;
-    }
-    if(a!=0)return a;
-    else return b; 
-}
+
+
+// ll gcd(ll a, ll b){
+//     while(a>=1&&b>=1){
+//         if(a>=b) a = a%b;
+//         else b = b%a;
+//     }
+//     if(a!=0)return a;
+//     else return b; 
+// }
 
 void solve() {
     ll A, B; cin >> A >> B;
+    // out(gcd(A, B));
     out(gcd(A, B));
+    // out(lcm(A, B));
 }
 
 int main() {
