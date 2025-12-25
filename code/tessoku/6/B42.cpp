@@ -71,6 +71,7 @@ void solve() {
         }
     }
     out(max(max(scr[0][0], scr[0][1]), max(scr[1][0], scr[1][1])));
+    // out(max({scr[0][0], scr[0][1], scr[1][0], scr[1][1]}));多重max
 }
 
 int main() {
