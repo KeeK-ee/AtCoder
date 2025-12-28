@@ -50,7 +50,13 @@ template<class T> bool chmin(T &a, const T &b) {
     if (a > b) { a = b; return true; }
     return false;
 }
+/**
+ * ABC437振り返り完了
+ */
 
+/**
+ * 算数
+ */
 void solve() {
     ll A, B; cin >> A >> B;
     out(A*12+B);
