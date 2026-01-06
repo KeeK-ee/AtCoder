@@ -58,6 +58,9 @@ void update(ll &x, ll &y, char d, ll dist) {
     else if(d=='D') y -= dist;
 }
 
+/**
+ * 無理～
+ */
 void solve() {
     ll rt, ct, ra, ca;
     cin >> rt >> ct >> ra >> ca;

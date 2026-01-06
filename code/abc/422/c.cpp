@@ -50,6 +50,9 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 算数
+ */
 void solve() {
     ll na, nb, nc;
     cin >> na >> nb >> nc;

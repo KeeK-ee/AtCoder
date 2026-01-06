@@ -50,6 +50,9 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 主客転倒
+ */
 void solve() {
     int N, M; cin >> N >> M;
     vector<vector<int>> A(M);

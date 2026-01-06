@@ -50,6 +50,10 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 数学、かなり難しい
+ * あんま分かってない
+ */
 void solve() {
     ll N, X, Y; cin >> N >> X >> Y;
     vector<ll> A(N);

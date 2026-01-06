@@ -50,6 +50,9 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * やる
+ */
 void solve() {
     vl A(10, 0);
     cin >> A[0] >> A[1];

@@ -50,6 +50,9 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * vectorで受け取って降順
+ */
 void solve() {
     vector<int> A(3);
     rep(i, 0 ,3){

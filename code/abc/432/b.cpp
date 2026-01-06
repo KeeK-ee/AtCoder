@@ -50,6 +50,9 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 0でない最小の要素をはじめに出力、残りを昇順に出力
+ */
 void solve() {
     string X; cin >> X;
     vector<int> A(X.size());

@@ -50,6 +50,10 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 算数
+ * 切りがいい部分と余る部分に分けて愚直に算数
+ */
 void solve() {
     int S, A, B, X;
     cin >> S >> A >> B >> X;
