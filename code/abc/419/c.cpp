@@ -50,6 +50,10 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * bounding box
+ * x座標とy座標を独立に考える
+ */
 void solve() {
     ll N;
     cin >> N;

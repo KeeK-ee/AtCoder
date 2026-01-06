@@ -72,6 +72,9 @@ void dfs(int i, string s){
     }
 }
 
+/**
+ * DFSで全探索
+ */
 void solve() {
     cin >> N >> K >> X;
     S = vector<string>(N);

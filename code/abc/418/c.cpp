@@ -49,6 +49,9 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 算数と累積和とにぶたん
+ */
 void solve() {
     ll N, Q, maxA=0;
     cin >> N >> Q;

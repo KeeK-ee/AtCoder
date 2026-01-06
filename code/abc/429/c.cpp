@@ -50,6 +50,9 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * mapでカウントしてnC2=n*(n-1)/2の利用
+ */
 void solve() {
     ll N; cin >> N;
     ll A[N];

@@ -50,6 +50,10 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * Ai+Bi>=Mを満たすAi, Biの組をできるだけ多くすればよい
+ * Aをソートして順番ににぶたん
+ */
 void solve() {
     ll N, M;
     cin >> N >> M;

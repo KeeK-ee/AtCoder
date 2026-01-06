@@ -50,6 +50,9 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * シミュレート
+ */
 void solve() {
     int N, M;
     cin >> N >> M;

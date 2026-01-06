@@ -50,6 +50,10 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 余りをバランスよく配分する
+ * バランスよく：配列上の左にも右にも寄ることなく配置
+ */
 void solve() {
     int N;
     ll K;

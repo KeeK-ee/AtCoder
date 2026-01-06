@@ -50,6 +50,11 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 探索すべきはSに含まれる長さKの部分文字列のみで十分だから
+ * mapで出現回数を管理して、(もともと辞書順で並んでいるから)
+ * 登場回数のmaxを取って、もう一度loopして出力
+ */
 void solve() {
     int N, K; cin >> N >> K;
     string S; cin >> S;

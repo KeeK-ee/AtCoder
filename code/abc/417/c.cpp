@@ -50,6 +50,9 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 添え字を等式の片方に寄せる
+ */
 void solve() {
     ll N;
     cin >> N;

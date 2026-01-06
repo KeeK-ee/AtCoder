@@ -64,6 +64,9 @@ bool isPal(ll st){
     return true;
 }
 
+/**
+ * 回文
+ */
 void solve() {
     ll N;
     cin >> A >> N;

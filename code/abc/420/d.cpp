@@ -50,6 +50,10 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * スイッチの押下回数（偶奇）によって、盤面は2種類の状態を持つ
+ * BFSの盤面を2つ操作する（世界の拡張）
+ */
 void solve() {
     int H, W;
     cin >> H >> W;

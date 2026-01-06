@@ -50,6 +50,9 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 各クエリに対して差分の計算
+ */
 void solve() {
     ll N, Q;
     cin >> N >> Q;

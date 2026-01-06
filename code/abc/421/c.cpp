@@ -50,6 +50,10 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 最終的な配置は2種類
+ * A同士、B同士をswapする必要はないから、移動距離が確定する
+ */
 void solve() {
     ll N;
     string S;

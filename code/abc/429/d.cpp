@@ -50,6 +50,9 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 復習要
+ */
 void solve() {
     ll N, M, C; cin >> N >> M >> C;
     map<ll, ll> m; //座標, そこの人数

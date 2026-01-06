@@ -50,6 +50,10 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * UFの根に対して、黒頂点の個数を管理
+ * マージの時に上をうまく操作
+ */
 void solve() {
     ll N, Q;
     cin >> N >> Q;

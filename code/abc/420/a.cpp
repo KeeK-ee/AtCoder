@@ -56,6 +56,9 @@ void solve() {
     (X+Y)%12==0 ? out(12) : out((X+Y)%12);
 }
 
+/**
+ * やる
+ */
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);

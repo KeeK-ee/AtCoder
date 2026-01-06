@@ -50,6 +50,10 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 等比数列
+ * 比＝1, -1を忘れない
+ */
 void solve() {
     int N;
     cin >> N;
