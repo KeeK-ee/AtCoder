@@ -52,42 +52,71 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
-ll N, M, L, S, T;
-vector<vector<pll>> G(N);
-ll cnt, cost;
-bool ok;
+// AC(グローバルでのDFS)
 
-void dfs(ll v){
-    if(ok) return;
-    if(cnt>=L) {
-        if(S<=cost && cost<=T) ok = true;
-        return;
-    }
-    cnt++;
-    for(auto[to, c] : G[v]){
-        cost += c;
-        dfs(to);
-        cost -= c;
-    }
-    cnt--;
-}
+// ll N, M, L, S, T;
+// vector<vector<pll>> G(N);
+// vb ans(N);
 
-void solve() {
-// ロジックをちゃんと考える！！！
+// void dfs(ll v, ll cnt, ll cst){
+//     if(cnt==L){
+//         if(S<=cst && cst<=T) ans[v]=true;
+//         return;
+//     }
+//     for(auto[to, c] : G[v]){
+//         dfs(to, cnt+1, cst+c);
+//     }
+// }
+
+// void solve() {
+// // ロジックをちゃんと考える！！！
+//     cin >> N >> M >> L >> S >> T;
+//     G = vector<vector<pll>>(N);
+//     rep(i, 0, M){
+//         ll u, v, c; cin >> u >> v >> c;
+//         u--;v--;
+//         G[u].push_back({v, c});
+//     }
+
+//     ans = vb(N, false);
+//     dfs(0, 0, 0);
+//     rep(i, 0, N)if(ans[i]) cout << i+1 << " ";
+// }
+
+/**
+ * DFSをしそう->どのようなDFS?
+ * v(1<=v<=N)をループしてそれぞれDFS?
+ * ->そんなことはしなくてよい. 始点が必ず1で深さがLで終了するから
+ * 終了時点でvにいれば、vのフラグを立てるという設計
+ * つまり1回のDFSでよい
+ * 計算量は最悪の場合, 4回の分岐をL回行うから4^L(だいたい10^6くらい)
+ */
+
+// ラムダ式でのDFS
+void solve(){
+    ll N, M, L, S, T;
     cin >> N >> M >> L >> S >> T;
-    G = vector<vector<pll>>(N);
+    vector<vector<pll>> G(N);
     rep(i, 0, M){
         ll u, v, c; cin >> u >> v >> c;
         u--;v--;
         G[u].push_back({v, c});
     }
+    vb ans(N, false);
 
-    rep(i, 0, N){
-        cnt=0, cost=0;
-        ok = false;
-        dfs(0);
-        if(ok) cout << (i+1) << " ";
-    }
+    //dfsする
+    auto dfs = [&](auto dfs, ll v, ll cnt, ll cst) -> void {
+        if(cnt==L){
+            if(S<=cst && cst<=T) ans[v]=true;
+            return;
+        }
+        for(auto[to, c] : G[v]){
+            dfs(dfs, to, cnt+1, cst+c);
+        }
+    };
+
+    dfs(dfs, 0, 0, 0);
+    rep(i, 0, N)if(ans[i]) cout << i+1 << " ";
 }
 
 int main() {
