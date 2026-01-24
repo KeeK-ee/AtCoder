@@ -56,6 +56,8 @@ template<class T> bool chmin(T &a, const T &b) {
  * 愚直->O(Q*max(Yj)*logN)ダメ
  * リストに含まない数のリストを作る->O(max(Ai)*logN)ダメ
  * XjとXj+Yj-1の間にリストに含まれる数を数えて、あとから足す->最悪ケース(リストが1, 2, 3...3e15でクエリが1, 1の場合はO(Q*N))ダメ
+ * 
+ * わからん(1/24)
  */
 void solve() {
 // ロジックをちゃんと考える！！！
@@ -63,8 +65,19 @@ void solve() {
     vl A(N);
     rep(i, 0, N) cin >> A[i];
     vl X(Q), Y(Q);
-    rep(i, 0, Q) cin >> X[i] >> Y[i]
-
+    rep(i, 0, Q) cin >> X[i] >> Y[i];
+    sort(all(A));
+    rep(i, 0, Q){
+        ll l=1, r=2e9;
+        while(l<r){
+            ll m = (l+r)/2;
+            ll a = m-X[i]+1;
+            ll b = upper_bound(all(X), m) - lower_bound(all(X), X[i]);
+            if(a-b>=Y[i]) r = m;
+            else l = m+1;
+        }
+        out(l);
+    }
 }
 
 int main() {
