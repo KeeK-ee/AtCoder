@@ -67,9 +67,9 @@ void solve() {
     ll ans=0;
     rep(y, 1, N-1){
         //yを全探索
-        ll tmp=sumB[y]-sumC[y];
+        ll tmp=sumB[y+1]-sumC[y+1];
         // 0<=x<yのにおいてのsumA[x]-sumB[x]の最大値を求める
-        tmp += maxAB[y];
+        tmp += maxAB[y+1];
         chmax(ans, tmp);
     }
     //-------ここまでも合ってそう-----------

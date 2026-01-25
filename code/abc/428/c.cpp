@@ -54,64 +54,34 @@ template<class T> bool chmin(T &a, const T &b) {
 
 /**
  * stackを2つ使えばいけそうというイメージだけがある
+ * 
+ * いい括弧列であることの必要十分条件
+ * - (を+1, )を-1として累積をスタックに積んだとき, スタックtopが0(バランスが取れている)
+ * - 負の値が含まれていない(「)」「(」の順番を排除)
+ * 累積と負の値の数を管理して, クエリごとに回答
+ * 
+ * 折れ線グラフをイメージすると, 上に凸のような形になればよい
  */
 void solve() {
 // ロジックをちゃんと考える！！！
     ll Q; cin >> Q;
-    deque<ll> dq1, dq2, dq3;
+    deque<ll> q;
+    ll mcnt=0;
+    q.push_back(0);
     rep(qi, 0, Q){
         int op; cin >> op;
         if(op==1){
             char c; cin >> c;
-            dq1.push_back(c);
-            if(c=='('){
-                dq2.push_back(c);
-                No;
-                continue;
-            }
-            else{
-                if(dq2.back()=='('){
-                    dq2.pop_back();
-                    if(dq2.empty()){
-                        Yes;
-                        continue;
-                    }
-                    else{
-                        No;
-                        continue;
-                    }
-                }
-                else{
-                    No;
-                    continue;
-                }
-            }
+            ll k = q.back()+(c=='(' ? 1 : -1);
+            if(k<0)mcnt++;
+            q.push_back(k);
         }
         else{
-            char c = dq1.back(); dq1.pop_back();
-            if(c=='('){
-                if(!dq3.empty() && dq3.back()==')'){
-                    dq3.pop_back();
-                    Yes;
-                    continue;
-                }
-                else{
-                    No;
-                    continue;
-                }
-            }
-            else{
-                if(!dq3.empty() && dq3.back()==')'){
-                    dq3.pop_back();
-                    Yes;
-                    continue;
-                }
-                else{
-                    No;
-                    continue;
-                }
-            }
+            ll k = q.back(); q.pop_back();
+            if(k<0)mcnt--;
         }
+        if(q.back()==0 && mcnt<=0) Yes;
+        else No;
     }
 }
 
