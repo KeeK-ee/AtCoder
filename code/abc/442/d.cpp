@@ -55,6 +55,7 @@ template<class T> bool chmin(T &a, const T &b) {
 
 /**
  * フェニック木
+ * 1点更新(今回は2回)と区間和をともにO(logN)で計算可能
  */
 void solve() {
 // ロジックをちゃんと考える！！！
