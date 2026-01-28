@@ -54,23 +54,38 @@ template<class T> bool chmin(T &a, const T &b) {
  * 二次元累積和の基礎
  * 長方形の総和は「右下+左上の1つ左上-右上の上-左下の左」
  */
+// void solve() {
+//     ll H, W; cin >> H >> W;
+//     vector<vl> grid(H, vl(W));
+//     rep(i, 0, H)rep(j, 0, W) cin >> grid[i][j];
+//     ll Q; cin >> Q;
+//     vl A(Q), B(Q), C(Q), D(Q);
+//     rep(i, 0, Q) {
+//         cin >> A[i] >> B[i] >> C[i] >> D[i];
+//         A[i]--;B[i]--;C[i]--;D[i]--;
+//     }
+
+//     vector<vl> imos(H+1, vl(W+1));
+//     rep(i, 1, H+1)rep(j, 1, W+1) imos[i][j] = imos[i][j-1] + grid[i-1][j-1];
+//     rep(j, 1, W+1)rep(i, 1, H+1) imos[i][j] += imos[i-1][j];
+
+//     rep(i, 0, Q){
+//         out(imos[A[i]][B[i]]+imos[C[i]+1][D[i]+1]-imos[A[i]][D[i]+1]-imos[C[i]+1][B[i]]);
+//     }
+// }
+
 void solve() {
     ll H, W; cin >> H >> W;
-    vector<vl> grid(H, vl(W));
+    vvl grid(H, vl(W));
     rep(i, 0, H)rep(j, 0, W) cin >> grid[i][j];
+    vvl sum(H+1, vl(W+1));
+    rep(i, 1, H+1)rep(j, 1, W+1) sum[i][j] = sum[i][j-1] + grid[i-1][j-1];
+    rep(j, 1, W+1)rep(i, 1, H+1) sum[i][j] += sum[i-1][j];
     ll Q; cin >> Q;
-    vl A(Q), B(Q), C(Q), D(Q);
-    rep(i, 0, Q) {
-        cin >> A[i] >> B[i] >> C[i] >> D[i];
-        A[i]--;B[i]--;C[i]--;D[i]--;
-    }
-
-    vector<vl> imos(H+1, vl(W+1));
-    rep(i, 1, H+1)rep(j, 1, W+1) imos[i][j] = imos[i][j-1] + grid[i-1][j-1];
-    rep(j, 1, W+1)rep(i, 1, H+1) imos[i][j] += imos[i-1][j];
-
     rep(i, 0, Q){
-        out(imos[A[i]][B[i]]+imos[C[i]+1][D[i]+1]-imos[A[i]][D[i]+1]-imos[C[i]+1][B[i]]);
+        ll a, b, c, d; cin >> a >> b >> c >> d;
+        a--; b--; c--; d--;
+        out(sum[c+1][d+1]-sum[c+1][b]-sum[a][d+1]+sum[a][b]);
     }
 }
 

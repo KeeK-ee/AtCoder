@@ -56,20 +56,47 @@ template<class T> bool chmin(T &a, const T &b) {
  * - 配列の範囲が決まっている
  * - 単調増加or減少である
  */
+// void solve() {
+//     ll N, K; cin >> N >> K;
+//     vl A(N);
+//     rep(i, 0, N) cin >> A[i];
+//     ll l=1, r=1e9;
+//     // O(log(max(A))*N)
+//     while(l<r){
+//         ll m = (l+r)/2;
+//         ll tmp=0;
+//         rep(i, 0, N) tmp += m/A[i];
+//         if(tmp>=K) r = m;
+//         else l = m+1;
+//     }
+//     out(l);
+// }
+
+/**
+ * 答えでにぶたんのテンプレ
+ */
 void solve() {
     ll N, K; cin >> N >> K;
     vl A(N);
     rep(i, 0, N) cin >> A[i];
-    ll l=1, r=1e9;
-    // O(log(max(A))*N)
-    while(l<r){
-        ll m = (l+r)/2;
+
+    auto check = [&](ll x) -> bool {
         ll tmp=0;
-        rep(i, 0, N) tmp += m/A[i];
-        if(tmp>=K) r = m;
-        else l = m+1;
+        rep(i, 0, N) tmp += x/A[i];
+        return K<=tmp;
+    };
+
+    ll ng=0, ok=1e9+1;
+    while(abs(ok-ng)>1){
+        ll m = (ok+ng)/2;
+        if(check(m)){
+            ok = m;
+        }
+        else{
+            ng = m;
+        }
     }
-    out(l);
+    out(ok);
 }
 
 int main() {

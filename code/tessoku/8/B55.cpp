@@ -58,8 +58,31 @@ template<class T> bool chmin(T &a, const T &b) {
  * ではx以下の最大値は？
  * -> すべての要素を-1倍した世界でにぶたんして, 結果を-1倍
  */
+// void solve() {
+// // ロジックをちゃんと考える！！！
+//     ll Q; cin >> Q;
+//     set<ll> s1, s2;
+//     rep(qi, 0, Q){
+//         int op; cin >> op;
+//         if(op==1){
+//             ll x; cin >> x;
+//             s1.insert(x);
+//             s2.insert(-x);
+//         }
+//         else{
+//             ll x; cin >> x;
+//             auto it1 = s1.lower_bound(x);
+//             auto it2 = s2.lower_bound(-x);
+//             ll abs1=INF, abs2=INF;
+//             if(it1 != s1.end()) abs1 = *it1 - x;
+//             if(it2 != s2.end()) abs2 = *it2 + x;
+//             if(abs1 == INF && abs2 == INF) out("-1");
+//             else out(min(abs1, abs2));
+//         }
+//     }
+// }
+
 void solve() {
-// ロジックをちゃんと考える！！！
     ll Q; cin >> Q;
     set<ll> s1, s2;
     rep(qi, 0, Q){
@@ -73,11 +96,10 @@ void solve() {
             ll x; cin >> x;
             auto it1 = s1.lower_bound(x);
             auto it2 = s2.lower_bound(-x);
-            ll abs1=INF, abs2=INF;
-            if(it1 != s1.end()) abs1 = *it1 - x;
-            if(it2 != s2.end()) abs2 = *it2 + x;
-            if(abs1 == INF && abs2 == INF) out("-1");
-            else out(min(abs1, abs2));
+            if(it1==s1.end() && it2==s2.end()) out("-1");
+            else if(it1==s1.end()) out(x+(*it2));
+            else if(it2==s2.end()) out(*it1-x);
+            else out(min(abs(x-*it1), abs(x+(*it2))));
         }
     }
 }
