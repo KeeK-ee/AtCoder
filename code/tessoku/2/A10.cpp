@@ -14,9 +14,8 @@
 #include <iomanip>
 using namespace std;
 
-//#include "../../../ac-library-master/atcoder/dsu.hpp"
-//#include <atcoder/all>
-//using namespace atcoder;
+#include <atcoder/all>
+using namespace atcoder;
 
 using ll = long long;
 using pii = pair<int, int>;
@@ -55,31 +54,56 @@ template<class T> bool chmin(T &a, const T &b) {
  * 左からmaxを取るのと右からmaxを取るののmaxというアイデア
  * 右から累積がバグりやすい
  */
+// void solve() {
+//     ll N; cin >> N;
+//     vl A(N);
+//     rep(i, 0, N) cin >> A[i];
+//     ll D; cin >> D;
+//     vl L(D), R(D);
+//     rep(i, 0, D){
+//         cin >> L[i] >> R[i];
+//         L[i]--;R[i]--;
+//     }
+//     //vL[i](i>=1)：0号室からi-1号室までの累積max
+//     vl vL(N+1);
+//     rep(i, 1, N+1) vL[i] = max(vL[i-1], A[i-1]);
+//     //vR[i](i>=1)：N号室からN-i+1号室までの累積max
+//     vl vR(N+1);
+//     reverse(all(A));
+//     rep(i, 1, N+1) vR[i] = max(vR[i-1], A[i-1]);
+//     reverse(all(vR));
+//     // rep(i, 0, N+1) cout << vL[i] << " ";
+//     // cout << endl;
+//     // rep(i, 0, N+1) cout << vR[i] << " ";
+//     // cout << endl;
+//     rep(i, 0, D){
+//         // cout << vL[L[i]] << " " <<  vR[R[i]+1] << " ";
+//         out(max( vL[L[i]], vR[R[i]+1]));
+//     }
+// }
+
+ll op(ll a, ll b) {
+    return max(a, b);
+}
+
+ll e() {
+    return -INF;
+}
+
 void solve() {
     ll N; cin >> N;
-    vl A(N);
-    rep(i, 0, N) cin >> A[i];
-    ll D; cin >> D;
-    vl L(D), R(D);
-    rep(i, 0, D){
-        cin >> L[i] >> R[i];
-        L[i]--;R[i]--;
+    segtree<ll, op, e> seg(N);
+    rep(i, 0, N) {
+        ll a; cin >> a;
+        seg.set(i, a);
     }
-    //vL[i](i>=1)：0号室からi-1号室までの累積max
-    vl vL(N+1);
-    rep(i, 1, N+1) vL[i] = max(vL[i-1], A[i-1]);
-    //vR[i](i>=1)：N号室からN-i+1号室までの累積max
-    vl vR(N+1);
-    reverse(all(A));
-    rep(i, 1, N+1) vR[i] = max(vR[i-1], A[i-1]);
-    reverse(all(vR));
-    // rep(i, 0, N+1) cout << vL[i] << " ";
-    // cout << endl;
-    // rep(i, 0, N+1) cout << vR[i] << " ";
-    // cout << endl;
+    ll D; cin >> D;
     rep(i, 0, D){
-        // cout << vL[L[i]] << " " <<  vR[R[i]+1] << " ";
-        out(max( vL[L[i]], vR[R[i]+1]));
+        ll l, r; cin >> l >> r;
+        l--; r--;
+        ll x = seg.prod(0, l);
+        ll y = seg.prod(r+1, N);
+        out(max(x, y));
     }
 }
 

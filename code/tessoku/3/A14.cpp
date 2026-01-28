@@ -56,9 +56,34 @@ template<class T> bool chmin(T &a, const T &b) {
  * lower_boundで最後のイテレータが返されたときは
  * そのまま配列の添え字に入れるとout of rangeでエラーが出るので注意
  */
+// void solve() {
+//     ll N, K; cin >> N >> K;
+//     vl A(N), B(N),C(N), D(N);
+//     rep(i, 0, N) cin >> A[i];
+//     rep(i, 0, N) cin >> B[i];
+//     rep(i, 0, N) cin >> C[i];
+//     rep(i, 0, N) cin >> D[i];
+//     vl AB, CD;
+//     rep(i, 0, N)rep(j, 0, N) AB.push_back(A[i]+B[j]);
+//     rep(i, 0, N)rep(j, 0, N) CD.push_back(C[i]+D[j]);
+//     sort(all(AB)); sort(all(CD));
+//     // cout << AB.size() << " " << CD.size() << " "<<endl;
+//     rep(i, 0, N*N){
+//         //CDにK-AB[i]が存在するか判定
+//         auto it = lower_bound(all(CD), K-AB[i]);
+//         ll idx = distance(CD.begin(), it);
+//         if(idx>=N*N) continue;
+//         if(CD[idx]==K-AB[i]){
+//             Yes;
+//             return;
+//         }
+//     }
+//     No;
+// }
+
 void solve() {
     ll N, K; cin >> N >> K;
-    vl A(N), B(N),C(N), D(N);
+    vl A(N), B(N), C(N), D(N);
     rep(i, 0, N) cin >> A[i];
     rep(i, 0, N) cin >> B[i];
     rep(i, 0, N) cin >> C[i];
@@ -66,19 +91,18 @@ void solve() {
     vl AB, CD;
     rep(i, 0, N)rep(j, 0, N) AB.push_back(A[i]+B[j]);
     rep(i, 0, N)rep(j, 0, N) CD.push_back(C[i]+D[j]);
-    sort(all(AB)); sort(all(CD));
-    // cout << AB.size() << " " << CD.size() << " "<<endl;
+    sort(all(AB));
+    sort(all(CD));
+    bool ans = false;
     rep(i, 0, N*N){
-        //CDにK-AB[i]が存在するか判定
         auto it = lower_bound(all(CD), K-AB[i]);
-        ll idx = distance(CD.begin(), it);
-        if(idx>=N*N) continue;
-        if(CD[idx]==K-AB[i]){
-            Yes;
-            return;
+        if(it==CD.end()) continue;
+        if(*it==K-AB[i]){
+            ans = true;
+            break;
         }
     }
-    No;
+    ans ? Yes : No;
 }
 
 int main() {

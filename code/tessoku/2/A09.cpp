@@ -55,28 +55,51 @@ template<class T> bool chmin(T &a, const T &b) {
  * 左上, 右下の1つ右下++
  * 左下の下, 右上の上--
  */
+// void solve() {
+//     ll H, W, N; cin >> H >> W >> N;
+//     vl A(N), B(N), C(N), D(N);
+//     rep(i, 0, N) {
+//         cin >> A[i] >> B[i] >> C[i] >> D[i];
+//         A[i]--;B[i]--;C[i]--;D[i]--;
+//     }
+//     vector<vl> grid(H+1, vl(W+1));
+//     rep(i, 0, N) {
+//         grid[A[i]][B[i]]++;
+//         grid[C[i]+1][D[i]+1]++;
+//         grid[A[i]][D[i]+1]--;
+//         grid[C[i]+1][B[i]]--;
+//     }
+//     vector<vl> imos(H+2, vl(W+2));
+//     rep(i, 1, H+2)rep(j, 1, W+2) imos[i][j] = imos[i][j-1] + grid[i-1][j-1];
+//     rep(j, 1, W+2)rep(i, 1, H+2) imos[i][j] += imos[i-1][j];
+//     rep(i, 1, H+1){
+//         rep(j, 1, W+1){
+//             cout << imos[i][j] << " ";
+//         }
+//         cout << endl;
+//     }
+// }
+
 void solve() {
     ll H, W, N; cin >> H >> W >> N;
-    vl A(N), B(N), C(N), D(N);
-    rep(i, 0, N) {
-        cin >> A[i] >> B[i] >> C[i] >> D[i];
-        A[i]--;B[i]--;C[i]--;D[i]--;
+    vvl grid(H+1, vl(W+1));
+    rep(i, 0, N){
+        ll a, b, c, d; cin >> a >> b >> c >> d;
+        a--; b--; c--; d--;
+        grid[a][b]++;
+        grid[c+1][b]--;
+        grid[a][d+1]--;
+        grid[c+1][d+1]++;
     }
-    vector<vl> grid(H+1, vl(W+1));
-    rep(i, 0, N) {
-        grid[A[i]][B[i]]++;
-        grid[C[i]+1][D[i]+1]++;
-        grid[A[i]][D[i]+1]--;
-        grid[C[i]+1][B[i]]--;
-    }
-    vector<vl> imos(H+2, vl(W+2));
+    vvl imos(H+2, vl(W+2));
     rep(i, 1, H+2)rep(j, 1, W+2) imos[i][j] = imos[i][j-1] + grid[i-1][j-1];
     rep(j, 1, W+2)rep(i, 1, H+2) imos[i][j] += imos[i-1][j];
+
     rep(i, 1, H+1){
         rep(j, 1, W+1){
             cout << imos[i][j] << " ";
         }
-        cout << endl;
+        cout << '\n';
     }
 }
 

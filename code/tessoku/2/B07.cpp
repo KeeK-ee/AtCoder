@@ -55,22 +55,34 @@ template<class T> bool chmin(T &a, const T &b) {
  * t+0.5秒がめんどくさいから, 整数秒で統一
  * L[i]出勤, R[i]退勤->L[i]からR[i-1]までいたと解釈
  */
+// void solve() {
+//     ll T, N; cin >> T >> N;
+//     vl L(N), R(N);
+//     rep(i, 0, N) {
+//         cin >> L[i] >> R[i];
+//         R[i]--;
+//     }
+//     vl v(T+1);
+//     rep(i, 0, N){
+//         v[L[i]]++;
+//         v[R[i]+1]--;
+//     }
+//     vl imos(T+2);
+//     rep(i, 1, T+2){
+//         imos[i] = imos[i-1] + v[i-1];
+//     }
+//     rep(i, 1, T+1) out(imos[i]);
+// }
+
 void solve() {
     ll T, N; cin >> T >> N;
-    vl L(N), R(N);
-    rep(i, 0, N) {
-        cin >> L[i] >> R[i];
-        R[i]--;
-    }
-    vl v(T+1);
+    vl cnt(T+1);
     rep(i, 0, N){
-        v[L[i]]++;
-        v[R[i]+1]--;
+        ll l, r; cin >> l >> r;
+        cnt[l]++; cnt[r]--;
     }
     vl imos(T+2);
-    rep(i, 1, T+2){
-        imos[i] = imos[i-1] + v[i-1];
-    }
+    rep(i, 1, T+2) imos[i] = imos[i-1] + cnt[i-1];
     rep(i, 1, T+1) out(imos[i]);
 }
 
