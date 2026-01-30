@@ -60,20 +60,35 @@ template<class T> bool chmin(T &a, const T &b) {
  * - 作戦3：終了時刻が早い方から
  * 今回は作戦3が最適
  */
+// void solve() {
+//     ll N; cin >> N;
+//     vector<pll> LR(N);
+//     rep(i, 0, N) cin >> LR[i].second >> LR[i].first;
+//     sort(all(LR));
+//     ll ans=0, t=0, idx=0;
+//     while(idx<N && t<=86400){
+//         if(LR[idx].second < t) {
+//             idx++;
+//             continue;
+//         }
+//         // LR[idx]を観る
+//         t = LR[idx].first; 
+//         idx++; ans++;
+//     }
+//     out(ans);
+// }
+
 void solve() {
     ll N; cin >> N;
     vector<pll> LR(N);
     rep(i, 0, N) cin >> LR[i].second >> LR[i].first;
     sort(all(LR));
-    ll ans=0, t=0, idx=0;
-    while(idx<N && t<=86400){
-        if(LR[idx].second < t) {
-            idx++;
-            continue;
+    ll ans=0, t=0;
+    rep(i, 0, N){
+        if(LR[i].second>=t) {
+            ans++;
+            t = LR[i].first;
         }
-        // LR[idx]を観る
-        t = LR[idx].first; 
-        idx++; ans++;
     }
     out(ans);
 }

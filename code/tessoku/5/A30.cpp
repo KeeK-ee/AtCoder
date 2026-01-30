@@ -14,9 +14,8 @@
 #include <iomanip>
 using namespace std;
 
-//#include "../../../ac-library-master/atcoder/dsu.hpp"
-//#include <atcoder/all>
-//using namespace atcoder;
+#include <atcoder/all>
+using namespace atcoder;
 
 using ll = long long;
 using pii = pair<int, int>;
@@ -70,20 +69,53 @@ ll power(ll a, ll b, ll mod){
  * aとbをまず素朴に求めて(modもとってしまう), その後に上の計算をする
  * m-2乗は繰り返し二乗法で
  */
+// void solve() {
+//     ll n, r; cin >> n >> r;
+//     ll a=1, b=1, c=1;
+//     rep(i, 1, n+1){
+//         a *= i; a %= MOD;
+//     }
+//     rep(i, 1, r+1){
+//         b *= i; b %= MOD;
+//     }
+//     rep(i, 1, n-r+1){
+//         c *= i; c %= MOD;
+//     }
+//     b = (b*c) %MOD;
+//     out(a*power(b, MOD-2, MOD)%MOD);
+// }
+
+using mint = modint1000000007;
+
+/**
+ * nCr mod を求める関数
+ * コンビネーション
+ */
+mint ncr(ll n, ll r) {
+    mint fac_n = 1;
+    rep(i, 1, n+1) fac_n *= i;
+    mint fac_r = 1;
+    rep(i, 1, r+1) fac_r *= i;
+    mint fac_nr = 1;
+    rep(i, 1, n-r+1) fac_nr *= i;
+    mint res = fac_n*((fac_r*fac_nr).pow((mint::mod())-2));
+    return res;
+}
+
 void solve() {
     ll n, r; cin >> n >> r;
-    ll a=1, b=1, c=1;
-    rep(i, 1, n+1){
-        a *= i; a %= MOD;
-    }
-    rep(i, 1, r+1){
-        b *= i; b %= MOD;
-    }
-    rep(i, 1, n-r+1){
-        c *= i; c %= MOD;
-    }
-    b = (b*c) %MOD;
-    out(a*power(b, MOD-2, MOD)%MOD);
+    mint ans = ncr(n, r);
+    out(ans.val());
+
+    // mint a=1;
+    // rep(i, 1, N+1) a *= i;
+    // mint b=1;
+    // rep(i, 1, R+1) b *= i;
+    // mint c=1;
+    // rep(i, 1, N-R+1) c *= i;
+
+    // mint ans = a*((b*c).pow(1000000005));
+    // out(ans.val());
 }
 
 int main() {
