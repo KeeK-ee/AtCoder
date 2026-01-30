@@ -55,7 +55,12 @@ template<class T> bool chmin(T &a, const T &b) {
 }
 
 /**
- * 解けてない
+ * UFとクエリ逆読み
+ * まず, 駅と線路はグラフに見なせる
+ * ->クエリ1は辺の削除であるが, UFでは辺の削除ができない
+ * ->クエリを逆読みすることで, クエリ1はmergeに見なせる
+ * ->グラフの最初の状態はどうなっているか?
+ * ->クエリ1が適用されるかどうかのbool配列を持っておいて, クエリ1が適用されない辺をあらかじめUFに張っておく
  */
 void solve() {
 // ロジックをちゃんと考える！！！
@@ -79,7 +84,15 @@ void solve() {
             query[i].push_back(u); query[i].push_back(v);
         }
     }
+    
+    vb cancel(M, false);
+    rep(i, 0, Q){
+        if(query[i][0]==1) cancel[query[i][1]]=true;
+    }
     dsu uf(N);
+    rep(i, 0, M){
+        if(!cancel[i]) uf.merge(AB[i].first, AB[i].second);
+    }
     vb ans;
 
     rrep(i, 0, Q){
