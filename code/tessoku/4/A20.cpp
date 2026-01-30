@@ -52,6 +52,7 @@ template<class T> bool chmin(T &a, const T &b) {
 }
 
 /**
+ * 最長共通部分列(LCS)
  * dp[i][j]：Sのi(1-indexed)文字目まで, Tのj(1-indexed)文字目まで見たときのSとTの最長共通部分列の長さ
  * ans：dp[sz(S)-1][sz(T)-1]
  * dp[i][j]=max(dp[i][j-1], dp[i-1][j]) when S[i] != T[j]

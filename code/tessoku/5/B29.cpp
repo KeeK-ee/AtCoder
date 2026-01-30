@@ -14,9 +14,8 @@
 #include <iomanip>
 using namespace std;
 
-//#include "../../../ac-library-master/atcoder/dsu.hpp"
-//#include <atcoder/all>
-//using namespace atcoder;
+#include <atcoder/all>
+using namespace atcoder;
 
 using ll = long long;
 using pii = pair<int, int>;
@@ -59,21 +58,30 @@ template<class T> bool chmin(T &a, const T &b) {
  * bit全探索にかなり近い
  * forが30までなのは, b<=10^9<2^30だから
  */
-ll power(ll a, ll b, ll mod){
-    ll p=a, ans=1;
-    rep(i, 0, 60){
-        if((b>>i)%2) {
-            ans *= p;
-            ans %= mod;
-        }
-        p = (p*p) % mod;       
-    }
-    return ans;
-}
+// ll power(ll a, ll b, ll mod){
+//     ll p=a, ans=1;
+//     rep(i, 0, 60){
+//         if((b>>i)%2) {
+//             ans *= p;
+//             ans %= mod;
+//         }
+//         p = (p*p) % mod;       
+//     }
+//     return ans;
+// }
+
+// void solve() {
+//     ll a, b; cin >> a >> b;
+//     out(power(a, b, MOD));
+// }
+
+using mint = modint1000000007;
 
 void solve() {
     ll a, b; cin >> a >> b;
-    out(power(a, b, MOD));
+    mint c = a;
+    mint ans = c.pow(b);
+    out(ans.val());
 }
 
 int main() {
