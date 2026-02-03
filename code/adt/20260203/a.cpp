@@ -16,8 +16,9 @@ using namespace std;
 
 #include <atcoder/all>
 using namespace atcoder;
-
 using ll = long long;
+using ull = unsigned long long;
+using ld = long double;
 using pll = pair<ll, ll>;
 using vpll = vector<pll>;
 using vvpll = vector<vpll>;
@@ -28,15 +29,17 @@ using vvb = vector<vb>;
 using vs = vector<string>;
 using pq = priority_queue<ll>;
 using pq_min = priority_queue<ll, vector<ll>, greater<ll>>; //小さい順
+using mint = modint998244353;
 
 const ll INF = 1e18;
-const ll MOD = 1000000007;
+const ll MOD = 998244353;
+const ld pi = 3.141592653589793238;
 const string abc = "abcdefghijklmnopqrstuvwxyz";
 const string ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const int dx[4] = {-1,0,1,0};
 const int dy[4] = {0,1,0,-1}; // 4近傍、上右下左
 
-#define rep(i, a, n) for (ll i = a; i < (int)(n); ++i)
+#define rep(i, a, n) for (ll i = a; i < (ll)(n); ++i)
 #define rrep(i, a, n) for (ll i = (ll)(n) - 1; i >= a; --i)
 #define all(x) (x).begin(), (x).end()
 #define sz(x) (ll)(x).size()
@@ -54,9 +57,23 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * A時間B分の比較
+ * t=A*60+Bとして比較
+ * (A, B)のpairを作って比較
+ * の方が頭がいい
+ */
 void solve() {
 // ロジックをちゃんと考える！！！
-    
+    ll A, B, C, D;
+    cin >> A >> B >> C >> D;
+    if(A<C) out("Takahashi");
+    else if(A>C) out("Aoki");
+    else{
+        if(B<D) out("Takahashi");
+        else if(B>D) out("Aoki");
+        else out("Takahashi");
+    }
 }
 
 int main() {
