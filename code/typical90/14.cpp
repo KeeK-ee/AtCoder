@@ -28,15 +28,16 @@ using vvb = vector<vb>;
 using vs = vector<string>;
 using pq = priority_queue<ll>;
 using pq_min = priority_queue<ll, vector<ll>, greater<ll>>; //小さい順
+using mint = modint998244353;
 
 const ll INF = 1e18;
-const ll MOD = 1000000007;
+const ll MOD = 998244353;
 const string abc = "abcdefghijklmnopqrstuvwxyz";
 const string ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const int dx[4] = {-1,0,1,0};
 const int dy[4] = {0,1,0,-1}; // 4近傍、上右下左
 
-#define rep(i, a, n) for (ll i = a; i < (int)(n); ++i)
+#define rep(i, a, n) for (ll i = a; i < (ll)(n); ++i)
 #define rrep(i, a, n) for (ll i = (ll)(n) - 1; i >= a; --i)
 #define all(x) (x).begin(), (x).end()
 #define sz(x) (ll)(x).size()
@@ -56,7 +57,14 @@ template<class T> bool chmin(T &a, const T &b) {
 
 void solve() {
 // ロジックをちゃんと考える！！！
-    
+    ll N; cin >> N;
+    vl A(N), B(N);
+    rep(i, 0, N) cin >> A[i];
+    rep(i, 0, N) cin >> B[i];
+    sort(all(A)); sort(all(B));
+    ll ans=0;
+    rep(i, 0, N) ans += abs(A[i]-B[i]);
+    out(ans);
 }
 
 int main() {
