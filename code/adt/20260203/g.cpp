@@ -58,9 +58,31 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * Lで置き換える範囲とRで置き換える範囲が被るときは結局Rで上書きされるから
+ * LとRは重ならないとしてよい
+ * 愚直がO(N^2)だからRでどこまで埋めるか固定したときに, どこまでLで埋めることが最適かをO(1)で求めたい
+ * AとRの境目をr(0<=r<=N-1)としたとき, 最適なLとAの境目をk(k<=r)とする
+ * 総和の式を式変形する. rは定数としてよいk+1~rの和は0~rの和-0~kの和とする
+ * k=iとしてchminすれば, それまでのminをとるkを選ぶことになる
+ */
 void solve() {
 // ロジックをちゃんと考える！！！
-    
+    ll N, L, R; cin >> N >> L >> R;
+    vl A(N);
+    rep(i, 0, N) cin >> A[i];
+
+    ll ans = R*N, sumA=0, mn=0;
+    rep(i, 0, N){
+        // RをA[i+1]からA[N-1]まで埋めるとき(i==N-1の時は範囲外参照)
+        ll tmp=R*(N-i-1); //Rだけの和
+        sumA += A[i];
+        tmp += sumA;
+        chmin(mn, L*(i+1)-sumA);
+        tmp += mn;
+        chmin(ans, tmp);
+    }
+    out(ans);
 }
 
 int main() {
