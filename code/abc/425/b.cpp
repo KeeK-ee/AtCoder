@@ -50,6 +50,9 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 順列全探索
+ */
 void solve() {
     int N; cin >> N;
     vector<int> A(N);

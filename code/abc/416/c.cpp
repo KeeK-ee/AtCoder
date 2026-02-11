@@ -50,42 +50,64 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
-int N, K;
-ll X;
-vector<string> S(N);
-vector<string> ans;
+// int N, K;
+// ll X;
+// vector<string> S(N);
+// vector<string> ans;
 
-void dfs(int i, string s){
-    //今からi項目（0-indexed）を決定する。現時点での数列がs。
-    if(i==K){
-        string tmp;
-        rep(i, 0, K){
-            tmp += S[s[i]-'0'];
-        }
-        ans.push_back(tmp);
-        return;
-    }
-    rep(j, 0, N){
-        s.push_back(j+'0');
-        dfs(i+1, s);
-        s.pop_back();
-    }
-}
+// void dfs(int i, string s){
+//     //今からi項目（0-indexed）を決定する。現時点での数列がs。
+//     if(i==K){
+//         string tmp;
+//         rep(i, 0, K){
+//             tmp += S[s[i]-'0'];
+//         }
+//         ans.push_back(tmp);
+//         return;
+//     }
+//     rep(j, 0, N){
+//         s.push_back(j+'0');
+//         dfs(i+1, s);
+//         s.pop_back();
+//     }
+// }
+
+// /**
+//  * DFSで全探索
+//  */
+// void solve() {
+//     cin >> N >> K >> X;
+//     S = vector<string>(N);
+//     rep(i, 0, N) cin >> S[i];
+//     ans = {};
+
+//     //1~Nからなる、長さKの数列を列挙。該当の文字列を構成しansにpush_back
+//     dfs(0, "");
+
+//     sort(all(ans));
+//     out(ans[X-1]);
+// }
 
 /**
- * DFSで全探索
+ * DFSでN^Kを全探索
  */
 void solve() {
-    cin >> N >> K >> X;
-    S = vector<string>(N);
+    ll N, K, X; cin >> N >> K >> X; X--;
+    vector<string> S(N);
     rep(i, 0, N) cin >> S[i];
-    ans = {};
-
-    //1~Nからなる、長さKの数列を列挙。該当の文字列を構成しansにpush_back
-    dfs(0, "");
-
+    vector<string> ans;
+    auto dfs =  [&](auto dfs, ll d, string s) -> void {
+        if(d==K){
+            ans.push_back(s);
+            return;
+        }
+        rep(i, 0, N){
+            dfs(dfs, d+1, s+S[i]);
+        }
+    };
+    dfs(dfs, 0, "");
     sort(all(ans));
-    out(ans[X-1]);
+    out(ans[X]);
 }
 
 int main() {
