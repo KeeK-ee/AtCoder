@@ -50,54 +50,61 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
-int A;
 
-bool isPal(ll st){
-    vl abase;
-    while(st>0){
-        abase.push_back(st%A);
-        st/=A;
-    }
-    rep(i, 0, sz(abase)/2){
-        if(abase[i]!=abase[sz(abase)-1-i])return false;
+bool is_pal(const string& s) {
+    for (size_t i = 0, j = s.size() ? s.size() - 1 : 0; i < j; ++i, --j) {
+        if (s[i] != s[j]) return false;
     }
     return true;
 }
 
 /**
- * 回文
+ * 進数変換と回文
+ * 回文は前が決まれば後ろが決まるからN以下の10進回文数はsqrt(N)で列挙できる
+ * あとは変換して回文か判定する
  */
 void solve() {
-    ll N;
-    cin >> A >> N;
-    ll ans=0;
-    //N以下で10進数でもA進数でも回文のものの総和
-    //10進回文数を全探索する
+    ll A, N; cin >> A >> N;
 
-    //1桁
+    auto ltoA = [&](ll x) -> string {
+        string res="";
+        while(x > 0){
+            res = (char)(x%A + '0') + res;
+            x /= A;
+        }
+        return res;
+    };
+
+    ll ans=0;
+    // 1桁
     rep(i, 1, 10){
-        if(i>N)break;
-        if(isPal((ll)i))ans+=i;
+        if(i>N) break;
+        else if(is_pal(ltoA(i))) ans += i;
     }
-    
-    //偶数桁
-    rep(i, 1, 1e6){
-        string sti = to_string(i);
-        reverse(all(sti));
-        string pal = to_string(i) + sti;
-        ll palll = stoll(pal);
-        if(palll>N)break;
-        if(isPal(palll))ans+=palll;
+
+    // 偶数桁
+    rep(i, 1, 999999+1){
+        string k = to_string(i);
+        string rk = k;
+        reverse(all(rk));
+        k = k + rk;
+        ll a = stoll(k);
+        if(a>N) break;
+        string b = ltoA(a);
+        if(is_pal(b)) ans += a;
     }
-    //奇数桁
-    rep(i, 1, 1e5){
+
+    // 奇数桁
+    rep(i, 1, 99999+1){
         rep(j, 0, 10){
-            string sti = to_string(i);
-            reverse(all(sti));
-            string pal = to_string(i) + to_string(j) + sti;
-            ll palll = stoll(pal);
-            if(palll>N)break;
-            if(isPal(palll))ans+=palll;
+            string k = to_string(i);
+            string rk = k;
+            reverse(all(rk));
+            k = k + to_string(j) + rk;
+            ll a = stoll(k);
+            if(a>N) break;
+            string b = ltoA(a);
+            if(is_pal(b)) ans += a;
         }
     }
     out(ans);
