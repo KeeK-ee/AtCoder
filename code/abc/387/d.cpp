@@ -37,8 +37,8 @@ const ll MOD = 998244353;
 const ld pi = 3.141592653589793238;
 const string abc = "abcdefghijklmnopqrstuvwxyz";
 const string ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-// const int dx[4] = {-1,0,1,0};
-// const int dy[4] = {0,1,0,-1}; // 4近傍、上右下左
+const int dy[4] = {-1,0,1,0};
+const int dx[4] = {0,1,0,-1};
 
 #define rep(i, a, n) for (ll i = a; i < (ll)(n); ++i)
 #define rrep(i, a, n) for (ll i = (ll)(n) - 1; i >= a; --i)
@@ -58,9 +58,9 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
-const int dy[2][2] = {{-1,1}, {0,0}};
-const int dx[2][2] = {{0,0}, {-1,1}};
-
+/**
+ * 縦横の情報をもってBFS
+ */
 void solve() {
 // ロジックをちゃんと考える！！！
     ll H, W; cin >> H >> W;
@@ -77,20 +77,21 @@ void solve() {
             gy=i; gx=j;
         }
     }
-    queue<pair<pll, ll>> q;
-    q.push({{sy, sx}, 0}); q.push({{sy, sx}, 1});
+    queue<tuple<ll, ll, int>> q;
+    q.push({sy, sx, 0}); q.push({sy, sx, 1});
 
     while(!q.empty()){
-        auto[p, d] = q.front(); q.pop();
-        ll y = p.first, x=p.second;
-        rep(dir, 0, 2){
-            ll ny = y + dy[d][dir];
-            ll nx = x + dx[d][dir];
+        auto[y, x, p] = q.front(); q.pop();
+        rep(i, 0, 4){
+            if(i%2 != p) continue;
+            ll ny = y + dy[i];
+            ll nx = x + dx[i];
+            int np = 1 - p;
             if(ny<0 || nx<0 || ny>=H || nx>=W) continue;
             if(S[ny][nx]=='#') continue;
-            if(dist[ny][nx][1-d]<dist[y][x][d]+1) continue;
-            dist[ny][nx][1-d]=dist[y][x][d]+1;
-            q.push({{ny, nx}, 1-d});
+            if(dist[ny][nx][np]<=dist[y][x][p]+1) continue;
+            dist[ny][nx][np]=dist[y][x][p]+1;
+            q.push({ny, nx, np});
         }
     }
 
