@@ -64,7 +64,7 @@ bool out_of_grid(ll y, ll x, ll H, ll W) {
 }
 
 /**
- * BITを使って転倒数を求めるO(NlongN)
+ * BITを使って転倒数を求めるO(NlogN)
  * 数列の各A[i]についてBITをインクリメントする
  * i - BIT.sum(0, A[i]);で自分より大きいかつ左側にあった個数を数える
  * https://scrapbox.io/pocala-kyopro/%E8%BB%A2%E5%80%92%E6%95%B0
