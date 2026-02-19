@@ -51,40 +51,31 @@ template<class T> bool chmin(T &a, const T &b) {
 }
 
 /**
- * Ai+Bi>=Mを満たすAi, Biの組をできるだけ多くすればよい
- * Aをソートして順番ににぶたん
+ * Ai, Bi<MよりAの大きい要素からBとマッチングさせてMをギリギリ超えるようにすればいい
+ * Bの要素に重複の可能性があるからBの要素はmultisetで管理してイテレータで消していく
+ * ans = AとBの総和-M*Mを超えたペア数 で計算すると賢い
+ * https://atcoder.jp/contests/awc0002/tasks/awc0002_d
+ * 上の亜種(重複がないためset上のにぶたんでよい)
  */
 void solve() {
-    ll N, M;
-    cin >> N >> M;
-    ll ans=0;
-    multiset<ll, greater<ll>> msA;
+    ll N, M; cin >> N >> M;
+    vl A(N);
+    multiset<ll> s;
+    rep(i, 0, N) cin >> A[i];
     rep(i, 0, N) {
-        ll a;
-        cin >> a;
-        msA.insert(a);
-        ans+=a;
+        ll b; cin >> b; s.insert(b);
     }
-    multiset<ll> msB;
-    rep(i, 0, N) {
-        ll b;
-        cin >> b;
-        msB.insert(b);
-        ans+=b;
-    }
-    ll cnt=0;
-    //Mを超すペアを最大化してカウント
-    auto itA = msA.begin();
-    while(itA != msA.end()){
-        ll key = *itA;
-        auto itB = msB.lower_bound(M-key);
-        if(itB==msB.end()) break;
+    sort(all(A)); reverse(all(A));
+    ll ans=0, cnt=0;
+    rep(i, 0, N) ans += A[i]; for(auto v : s) ans += v;
+    rep(i, 0, N){
+        // A[i]について
+        auto it = s.lower_bound(M-A[i]);
+        if(it==s.end()) break;
+        s.erase(it);
         cnt++;
-        msB.erase(itB);
-        itA++;
     }
-    ans -= cnt*M;
-    out(ans);
+    out(ans-cnt*M);
 }
 
 int main() {

@@ -63,6 +63,10 @@ bool out_of_grid(ll y, ll x, ll H, ll W) {
     return (y < 0 || x < 0 || y >= H || x >= W);
 }
 
+/**
+ * 区間スケジューリングの応用
+ * 区間covered+1を含むうちRが最も大きい警備員を採用する貪欲が最適
+ */
 void solve() {
 // ロジックをちゃんと考える！！！
     ll N, M; cin >> N >> M;
@@ -74,7 +78,7 @@ void solve() {
     sort(all(LR));
     ll ans=0;
     ll idx=0, covered=-1;
-    while(covered<N){
+    while(covered<N-1){
         ll best=-1;
         while(idx<M && LR[idx].first<=covered+1){
             chmax(best, LR[idx].second); idx++;
