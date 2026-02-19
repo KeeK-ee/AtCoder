@@ -63,24 +63,43 @@ bool out_of_grid(ll y, ll x, ll H, ll W) {
     return (y < 0 || x < 0 || y >= H || x >= W);
 }
 
+/**
+ * ある頂点を訪問したとき, その状態は
+ * - 頂点番号
+ * - その時点でのwalkのxor
+ * で表される
+ * 頂点数:N, xor:2^10(0~2^10-1)のため状態の数はその掛け算
+ * 頂点倍加をし1024N頂点でDFSして到達可能性を判定
+ * 実際のグラフはN頂点M辺で管理すればよい
+ * ☆頂点nでXORがxの頂点はN*1024+xとすればよい
+ * ans:頂点N-1を表す1024頂点のうちxor最小
+ */
 void solve() {
 // ロジックをちゃんと考える！！！
     ll N, M; cin >> N >> M;
+    const ll X = 1<<10;
     vvpll G(N);
-    rep(i, 0, N){
+    rep(i, 0, M){
         ll a, b, w; cin >> a >> b >> w; a--; b--;
         G[a].push_back({b, w});
-        G[b].push_back({a, w});
     }
-    ll ans=INF;
-    vb seen(N);
-    
-    auto dfs = [&](auto dfs, ll v, ll cos) -> void {
 
+    vb seen(N*X); seen[0]=true;
+    
+    auto dfs = [&](auto dfs, ll v) -> void {
+        ll a=v/X, b=v%X;
+        for(auto[to, c] : G[a]){
+            if(seen[to*X+(b^c)]) continue;
+            seen[to*X+(b^c)]=true;
+            dfs(dfs, to*X+(b^c));
+        }
     };
 
-    seen[0]=true;
-    dfs(dfs, 0, 0);
+    dfs(dfs, 0);
+    ll ans=-1;
+    rep(i, (N-1)*X, N*X) if(seen[i]) {
+        ans=i%X; break;
+    }
     out(ans);
 }
 

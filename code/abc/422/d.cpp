@@ -53,6 +53,9 @@ template<class T> bool chmin(T &a, const T &b) {
 /**
  * 余りをバランスよく配分する
  * バランスよく：配列上の左にも右にも寄ることなく配置
+ * 操作の最終形態が数列の総和になる&問題で総和Kが与えられるから操作を逆順に行うと数列が構築できそう
+ * KをK/2とK+1/2に分割を繰り返す 最後の2^N項が答え
+ * K/2とK+1/2の差が必ず1以下だからアンバランスさは0or1を達成可能(K%2^N==0のとき0)
  */
 void solve() {
     int N;
@@ -71,19 +74,6 @@ void solve() {
     rep(i, sz(dp)-(1 << N), sz(dp)) chmax(max, dp[i]), chmin(min, dp[i]);
     out(max-min);
     rep(i, sz(dp)-(1 << N), sz(dp)) cout << dp[i] << " ";
-
-    // rep(i, 0, N){
-    //     vector<ll> tmp;
-    //     for(auto a : ans){
-    //         tmp.push_back(a/2);
-    //         tmp.push_back(a-a/2);
-    //     }
-    //     ans = tmp;
-    // }
-    // ll max = *max_element(all(ans));
-    // ll min = *min_element(all(ans));
-    // out(max-min);
-    // rep(i, 0, sz(ans)) cout << ans[i] << " ";
 }
 
 int main() {

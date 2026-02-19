@@ -58,6 +58,15 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * ざっくり各マスについてスコアに寄与させるかどうか選んでも2^20~=10^6
+ * 実際のドミノの置き方はこれより少ないはずだから全探索でよい
+ * ドミノを置かないマスの総xorを計算するのは少しめんどくさいので一度全てのxorを取ってからドミノを置くマスの数をxorで相殺する
+ * 各マスにおける選択肢は
+ * - ドミノを置かない
+ * - ドミノを横向きにおける時に横向きに置く
+ * - ドミノを縦向きにおける時に縦向きに置く
+ */
 void solve() {
 // ロジックをちゃんと考える！！！
     ll H, W; cin >> H >> W;
@@ -80,10 +89,18 @@ void solve() {
         //置かない
         dfs(dfs, i, j+1, x);
         //横向き
-        
+        if(j<=W-2 && !seen[i][j] && !seen[i][j+1]){
+            seen[i][j]=true; seen[i][j+1]=true;
+            dfs(dfs, i, j+2, x^A[i][j]^A[i][j+1]);
+            seen[i][j]=false; seen[i][j+1]=false;
+        }
         //縦向き
+        if(i<=H-2 && !seen[i][j] && !seen[i+1][j]){
+            seen[i][j]=true; seen[i+1][j]=true;
+            dfs(dfs, i, j+1, x^A[i][j]^A[i+1][j]);
+            seen[i][j]=false; seen[i+1][j]=false;
+        }
     };
-    seen[0][0]=true;
     dfs(dfs, 0, 0, axor);
     out(ans);
 }

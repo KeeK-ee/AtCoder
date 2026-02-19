@@ -58,28 +58,29 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 異なる(a, b)に対してXが同じ値になることがある！
+ * ->N以下の全てのXにおいてa=1ora=2である(a>=3のときはa^2ずつb側に移すことでa<=2にできる)
+ * a=1: X=2*b^2<=Nとなる最大のb
+ * a=2: X=4*b^2<=Nとなる最大のb
+ * それぞれの答えの足し算 左辺が単調増加だから求めるにはにぶたんでOK O(logN)
+ */
 void solve() {
 // ロジックをちゃんと考える！！！
     ll N; cin >> N;
     ll ans=0;
-    ll l=0, r=10000000000;
-    while(abs(l-r)>2){
+    ll l=0, r=1000000000LL;
+    while(r-l>1){
         ll m = (l+r)/2;
         if(2*m*m <= N) l=m;
         else r=m;
     }
-    rep(i, l, r+1){
-        if(2*i*i <= N) chmax(l, i);
-    }
     ans += l;
-    l=0, r=INF;
-    while(abs(l-r)>2){
+    l=0, r=1000000000LL;
+    while(r-l>1){
         ll m = (l+r)/2;
         if(4*m*m <= N) l=m;
         else r=m;
-    }
-    rep(i, l, r+1){
-        if(4*i*i <= N) chmax(l, i);
     }
     ans += l;
     out(ans);

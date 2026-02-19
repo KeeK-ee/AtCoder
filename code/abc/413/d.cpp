@@ -51,6 +51,7 @@ template<class T> bool chmin(T &a, const T &b) {
 }
 
 /**
+ * 絶対値順のソート
  * 等比数列
  * 比＝1, -1を忘れない
  */

@@ -61,12 +61,14 @@ template<class T> bool chmin(T &a, const T &b) {
 /**
  * - sum(W)<=sum(C)
  * - max(W)<=max(C)が必要
- * 各荷物についてどのトラックに入れるか全探索->O(N^M)=15^15->x
+ * 各荷物についてどのトラックに入れるか全探索->O(M^N)=15^15->x
  * 貪欲かDP?
- * 貪欲->重い荷物から積載重量の大きいトラックへ入れていく
+ * 貪欲->重い荷物から積載重量の大きいトラックへ入れていく(嘘解法)
  * 
  * 数式的にはi=0~N-1に対してCj(j=0~M-1)-=Wiをして
  * Cを負の数にしないように全てのiに対して操作を行いきれるか?
+ * 
+ * bitDPらしい分からん
  */
 void solve() {
 // ロジックをちゃんと考える！！！
@@ -74,17 +76,7 @@ void solve() {
     vl W(N), C(M);
     rep(i, 0, N) cin >> W[i];
     rep(i, 0, M) cin >> C[i];
-
-    sort(all(W)); reverse(all(W));
-    sort(all(C)); reverse(all(C));
-    rep(i, 0, N){
-        if(W[i]>C[0]){
-            No; return;
-        }
-        C[0] -= W[i];
-        sort(all(C)); reverse(all(C));
-    }
-    Yes;
+    
 }
 
 int main() {
