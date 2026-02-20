@@ -69,11 +69,16 @@ bool out_of_grid(ll y, ll x, ll H, ll W) {
  * - Aに含まれる全素数について, その素数^指数maxの総積を計算(=A全ての項のLCM)
  * - A[i]に対してA[i]の各素数がmaxならmaxから2番目を採用(その差で割る), maxでないならcontinue
  */
-void solve() {
-// ロジックをちゃんと考える！！！
-    ll N; cin >> N;
-    vl A(N); rep(i, 0, N) cin >> A[i];
 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    // テストケースが1つの場合
+    // solve();
+
+    // テストケースが複数ある場合
+    int t;
+    cin >> t;
     // 1e7以下の数に対するエラトステネスの篩
     vl erato; // 素数
     vb deleted(10'000'000LL); //true:すでにチェック済み
@@ -82,6 +87,10 @@ void solve() {
         erato.push_back(i);
         for(int j=i+i;j<10'000'000LL+1;j+=i) deleted[j]=true;
     }
+    while (t--) {
+
+    ll N; cin >> N;
+    vl A(N); rep(i, 0, N) cin >> A[i];
 
     vector<map<ll, ll>> expo(N);
     map<ll, ll> maxexp, max2exp;
@@ -95,22 +104,22 @@ void solve() {
                 t/=erato[j];
             }
             if(expo[i].count(erato[j])){
-                if(expo[i][erato[j]]>maxexp[erato[j]]){
+                if(expo[i][erato[j]]>=maxexp[erato[j]]){
                     max2exp[erato[j]]=maxexp[erato[j]];
                     maxexp[erato[j]]=expo[i][erato[j]];
                 }
-                else if(expo[i][erato[j]]>max2exp[erato[j]]){
+                else if(expo[i][erato[j]]>=max2exp[erato[j]]){
                     max2exp[erato[j]]=expo[i][erato[j]];
                 }
             }
         }
         if(t!=1)expo[i][t]++;
         if(expo[i].count(t)){
-            if(expo[i][t]>maxexp[t]){
+            if(expo[i][t]>=maxexp[t]){
                 max2exp[t]=maxexp[t];
                 maxexp[t]=expo[i][t];
             }
-            else if(expo[i][t]>max2exp[t]){
+            else if(expo[i][t]>=max2exp[t]){
                 max2exp[t]=expo[i][t];
             }
         }
@@ -122,7 +131,7 @@ void solve() {
         pro *= a.pow(v);
     }
 
-    rep(k, 0, N-1){
+    rep(k, 0, N){
         //A[k]以外のlcm%m
         mint b=1;
         for(auto[e, v] : expo[k]){
@@ -134,19 +143,7 @@ void solve() {
         mint ans=pro*b.pow(998244353-2);
         out(ans.val());
     }
-}
 
-int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
-    // テストケースが1つの場合
-    // solve();
-
-    // テストケースが複数ある場合
-    int t;
-    cin >> t;
-    while (t--) {
-        solve();
     }
     return 0;
 }
