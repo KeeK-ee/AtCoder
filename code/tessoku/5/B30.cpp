@@ -14,9 +14,8 @@
 #include <iomanip>
 using namespace std;
 
-//#include "../../../ac-library-master/atcoder/dsu.hpp"
-//#include <atcoder/all>
-//using namespace atcoder;
+#include <atcoder/all>
+using namespace atcoder;
 
 using ll = long long;
 using pii = pair<int, int>;
@@ -51,49 +50,23 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
-// a の b 乗を m で割った余りを返す関数
-// 変数 a は a^1 → a^2 → a^4 → a^8 → a^16 → ･･･ と変化
-ll Power(ll a, ll b, ll m) {
-	ll p = a, Answer = 1;
-	for (int i = 0; i < 30; i++) {
-		int wari = (1 << i);
-		if ((b / wari) % 2 == 1) {
-			Answer = (Answer * p) % m; // 「a の 2^i 乗」が掛けられるとき
-		}
-		p = (p * p) % m;
-	}
-	return Answer;
-}
-
-// a ÷ b を m で割った余りを返す関数
-ll Division(ll a, ll b, ll m) {
-	return (a * Power(b, m - 2, m)) % m;
-}
-
-// nCr mod 1000000007 を返す関数
-ll ncr(int n, int r) {
-	const long long M = 1000000007;
-
-	// 手順 1: 分子 a を求める
-	long long a = 1;
-	for (int i = 1; i <= n; i++) a = (a * i) % M;
-
-	// 手順 2: 分母 b を求める
-	long long b = 1;
-	for (int i = 1; i <= r; i++) b = (b * i) % M;
-	for (int i = 1; i <= n - r; i++) b = (b * i) % M;
-
-	// 手順 3: 答えを求める
-	return Division(a, b, M);
-}
-
 /**
  * nCr(組み合わせ, combination)を求めるセット
  */
+using mint=modint1000000007;
+
+mint nCr (ll n, ll r){
+	mint a=1, b=1;
+	rrep(i, n-r+1, n+1) a*=i;
+	rep(i, 1, r+1) b*=i;
+	mint res =  a*(b.pow((ll)(mint::mod())-2));
+	return res.val();
+}
+
 void solve() {
 	ll H, W;
 	cin >> H >> W;
-	cout << ncr(H + W - 2, W - 1) << endl;
+	out(nCr(H+W-2, H-1).val());
 }
 
 int main() {
