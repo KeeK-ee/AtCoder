@@ -94,6 +94,7 @@ void solve() {
             q.push_back({ny, nx});
         }
     }
+
     if(dist[gy][gx]==INF) out(-1);
     else out(dist[gy][gx]);
 }
