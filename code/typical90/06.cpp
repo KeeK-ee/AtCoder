@@ -67,9 +67,15 @@ char op(char a, char b){
 }
 
 char e(){
-    return 'z'+1;
+    return 'z';
 }
 
+/**
+ * 選べる範囲の文字の内小さいものから貪欲に選ぶ
+ * ->区間min
+ * ->セグ木に文字列を載せる
+ * ->idxは全体を通して0~N-1しか動かないから問題ない(尺取りみたいな感覚)
+ */
 void solve() {
 // ロジックをちゃんと考える！！！
     ll N, K; cin >> N >> K;
@@ -78,9 +84,13 @@ void solve() {
     rep(i, 0, N) seg.set(i, S[i]);
     
     string ans="";
+    ll idx=0;
     rep(i, 0, K){
         // ansのi文字目について
-
+        char c=seg.prod(idx, N-K+1+i);
+        while(idx<N && S[idx]!=c) idx++;
+        ans += c;
+        idx++;
     }
     out(ans);
 }
