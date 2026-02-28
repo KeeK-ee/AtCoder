@@ -117,5 +117,6 @@
   "pasteImage.path": "${currentFileDir}/images",
   "pasteImage.prefix": "./images/",
   "pasteImage.forcePathSeparator": "/",
-  "C_Cpp.errorSquiggles": "disabled" // Windowsでもパス区切りを/にする
+  "C_Cpp.errorSquiggles": "disabled",
+  "python-envs.defaultEnvManager": "ms-python.python:system" // Windowsでもパス区切りを/にする
 }
