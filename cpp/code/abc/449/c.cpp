@@ -67,28 +67,90 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 文字ごとの累積和をとる
+ * 添え字ガチャをしなければならなかった
+ */
+// void solve() {
+//     // ロジックをちゃんと考える！！！
+//     ll N, L, R; cin >> N >> L >> R;
+//     string S; cin >> S;
+//     vvl sum(26, vl(N+2));
+//     rep(i, 0, N){
+//         sum[S[i]-'a'][i+1]++;
+//     }
+//     rep(i, 0, 26){
+//         rep(j, 1, N+2){
+//             sum[i][j]+=sum[i][j-1];
+//         }
+//     }
+//     ll ans=0;
+//     rep(i, 0, N){
+//         ll l = min(i+L, N);
+//         ll r = min(i+R+1, N);
+//         if(l>=r) continue;
+//         ll tmp = sum[S[i]-'a'][r]-sum[S[i]-'a'][l];
+//         ans += tmp;
+//     }
+//     out(ans);
+// }
+
+/**
+ * mapで文字の出現回数をカウントする
+ * 両端を差分更新する
+ */
+// void solve() {
+//     ll N, L, R; cin >> N >> L >> R;
+//     string S; cin >> S;
+
+//     map<char, ll> m;
+//     rep(i, L, R+1) m[S[i]]++;
+
+//     ll ans=0;
+//     rep(i, 0, N){
+//         ans+=m[S[i]];
+//         if(L+i<N) m[S[L+i]]--;
+//         if(R+i+1<N) m[S[R+i+1]]++;
+//     }
+//     out(ans);
+// }
+
+/**
+ * フェニック木
+ */
+// void solve() {
+//     ll N, L, R; cin >> N >> L >> R;
+//     string S; cin >> S;
+
+//     vector<fenwick_tree<ll>> cnt(26, fenwick_tree<ll>(N));
+//     rep(i, 0, N) cnt[S[i]-'a'].add(i, 1);
+
+//     ll ans=0;
+//     rep(i, 0, N){
+//         ll l=min(i+L, N), r=min(i+R+1, N);
+//         if(l>=r) continue;
+//         ans += cnt[S[i]-'a'].sum(l, r);
+//     }
+//     out(ans);
+// }
+
+/**
+ * 文字ごとのidxを管理
+ * にぶたんでi+Lからi+Rの個数を計算
+ */
 void solve() {
-    // ロジックをちゃんと考える！！！
     ll N, L, R; cin >> N >> L >> R;
     string S; cin >> S;
-    vvl sum(26, vl(N+2));
-    rep(i, 0, N){
-        sum[S[i]-'a'][i+1]++;
-    }
-    rep(i, 0, 26){
-        rep(j, 1, N+2){
-            sum[i][j]+=sum[i][j-1];
-        }
-    }
-    // rep(i, 0, N+2) cout << sum[0][i] << " ";
+
+    vvl idx(26);
+    rep(i, 0, N) idx[S[i]-'a'].push_back(i);
+
     ll ans=0;
     rep(i, 0, N){
-        ll l = min(i+L, N);
-        ll r = min(i+R+1, N);
-        // cout << l << " " << r << '\n';
-        if(l>=r) continue;
-        ll tmp = sum[S[i]-'a'][r]-sum[S[i]-'a'][l];
-        ans += tmp;
+        ll c=S[i]-'a';
+        auto l=lower_bound(all(idx[c]), i+L);
+        auto r=upper_bound(all(idx[c]), i+R);
+        ans+=r-l;
     }
     out(ans);
 }

@@ -67,6 +67,9 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * やる
+ */
 void solve() {
     // ロジックをちゃんと考える！！！
     ll H, W, Q; cin >> H >> W >> Q;

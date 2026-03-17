@@ -67,10 +67,15 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * やる
+ */
 void solve() {
     // ロジックをちゃんと考える！！！
-    ll D; cin >> D;
-    fix; out(pi*((double)D/2)*((double)D/2));
+    double D; cin >> D;
+    double r=D/2.0;
+    double ans=pi*r*r;
+    fix; out(ans);
 }
 
 int main() {
