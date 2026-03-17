@@ -14,9 +14,8 @@
 #include <iomanip>
 using namespace std;
 
-//#include "../../../ac-library-master/atcoder/dsu.hpp"
-//#include <atcoder/all>
-//using namespace atcoder;
+#include <atcoder/all>
+using namespace atcoder;
 
 using ll = long long;
 using pii = pair<int, int>;
@@ -51,29 +50,50 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+// void solve() {
+//     ll N; cin >> N;
+//     vl A(N), B(N), C(N);
+//     rep(i, 0, N) cin >> A[i];
+//     rep(i, 0, N) cin >> B[i];
+//     rep(i, 0, N) cin >> C[i];
+//     vl sumA(N+1), sumB(N+1), sumC(N+1);
+//     rep(i, 1, N+1) sumA[i] = sumA[i-1] + A[i-1];
+//     rep(i, 1, N+1) sumB[i] = sumB[i-1] + B[i-1];
+//     rep(i, 1, N+1) sumC[i] = sumC[i-1] + C[i-1];
+//     //-------ここまでは合ってそう-----------
+//     vl maxAB(N+2);
+//     rep(i, 1, N+2) maxAB[i]=max(maxAB[i-1], sumA[i-1]-sumB[i-1]);
+//     ll ans=0;
+//     rep(y, 1, N-1){
+//         //yを全探索
+//         ll tmp=sumB[y+1]-sumC[y+1];
+//         // 0<=x<yのにおいてのsumA[x]-sumB[x]の最大値を求める
+//         tmp += maxAB[y+1];
+//         chmax(ans, tmp);
+//     }
+//     //-------ここまでも合ってそう-----------
+//     ans += sumC[N]; ans -= sumA[0];
+//     out(ans);
+// }
+
+/**
+ * ansは一時的に負になる場合があるから初期値は-INFにしておく
+ */
 void solve() {
     ll N; cin >> N;
-    vl A(N), B(N), C(N);
-    rep(i, 0, N) cin >> A[i];
-    rep(i, 0, N) cin >> B[i];
-    rep(i, 0, N) cin >> C[i];
-    vl sumA(N+1), sumB(N+1), sumC(N+1);
-    rep(i, 1, N+1) sumA[i] = sumA[i-1] + A[i-1];
-    rep(i, 1, N+1) sumB[i] = sumB[i-1] + B[i-1];
-    rep(i, 1, N+1) sumC[i] = sumC[i-1] + C[i-1];
-    //-------ここまでは合ってそう-----------
-    vl maxAB(N+2);
-    rep(i, 1, N+2) maxAB[i]=max(maxAB[i-1], sumA[i-1]-sumB[i-1]);
-    ll ans=0;
+    fenwick_tree<ll> A(N), B(N), C(N);
+    rep(i, 0, N) { ll a; cin >> a; A.add(i, a); }
+    rep(i, 0, N) { ll b; cin >> b; B.add(i, b); }
+    rep(i, 0, N) { ll c; cin >> c; C.add(i, c); }
+
+    ll ans=-INF, mx=-INF;
     rep(y, 1, N-1){
-        //yを全探索
-        ll tmp=sumB[y+1]-sumC[y+1];
-        // 0<=x<yのにおいてのsumA[x]-sumB[x]の最大値を求める
-        tmp += maxAB[y+1];
-        chmax(ans, tmp);
+        // yを固定して全探索
+        ll tmp=B.sum(0, y+1)-C.sum(0, y+1);
+        chmax(mx, A.sum(0, y)-B.sum(0, y));
+        chmax(ans, tmp+mx);
     }
-    //-------ここまでも合ってそう-----------
-    ans += sumC[N]; ans -= sumA[0];
+    ans+=C.sum(0, N);
     out(ans);
 }
 

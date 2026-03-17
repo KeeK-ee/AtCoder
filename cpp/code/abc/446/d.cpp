@@ -64,28 +64,43 @@ bool out_of_grid(ll y, ll x, ll H, ll W) {
 }
 
 /**
- * 始点を固定したときのBの長さを計算->O(N)
+ * 始点を固定したときのBの長さを計算->O(N^2)
  * O(N)くらいで解きたい
  * あるA[i]を見たときにA[i]-1までのBの長さのmaxが分かればそれ+1である
  * ->10^9の配列はやばそう->map
  */
+// void solve() {
+// // ロジックをちゃんと考える！！！
+//     ll N; cin >> N;
+//     vl A(N); rep(i, 0, N) cin >> A[i];
+//     map<ll, ll> m;
+//     rep(i, 0, N){
+//         if(m.count(A[i]-1)){
+//             if(m.count(A[i])){
+//                 chmax(m[A[i]], m[A[i]-1]+1);
+//             }
+//             else{
+//                 m[A[i]]=m[A[i]-1]+1;
+//             }
+//         }
+//         else{
+//             m[A[i]]=1;
+//         }
+//     }
+//     ll ans=-INF;
+//     for(auto[k, v] : m){
+//         chmax(ans, v);
+//     }
+//     out(ans);
+// }
+
 void solve() {
 // ロジックをちゃんと考える！！！
     ll N; cin >> N;
     vl A(N); rep(i, 0, N) cin >> A[i];
     map<ll, ll> m;
     rep(i, 0, N){
-        if(m.count(A[i]-1)){
-            if(m.count(A[i])){
-                chmax(m[A[i]], m[A[i]-1]+1);
-            }
-            else{
-                m[A[i]]=m[A[i]-1]+1;
-            }
-        }
-        else{
-            m[A[i]]=1;
-        }
+        chmax(m[A[i]], m[A[i]-1]+1);
     }
     ll ans=-INF;
     for(auto[k, v] : m){

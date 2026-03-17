@@ -55,22 +55,65 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+bool outOfGrid(ll y, ll x, ll H, ll W) {
+    return (y < 0 || x < 0 || y >= H || x >= W);
+}
+
+/**
+ * BFSっぽい
+ * 空きマスだけで到達可能のときは当然到達可能
+ * 壁マスについて下の壁マスを全て破壊可能の場合に到達可能
+ * 「同列の下の壁マスを全て破壊可能の場合」->これを高速に求める
+ * ある行からの遷移を始める前に上記を更新しておく
+ */
 void solve() {
-// ロジックをちゃんと考える！！！
-    
+    // ロジックをちゃんと考える！！！
+    ll N, C; cin >> N >> C;
+    vs S(N); rep(i, 0, N) cin >> S[i];
+
+    vvb vis(N, vb(N)); vis[N-1][C-1]=true;
+    queue<pll> q; q.push({N-1, C-1});
+
+    vb rm(N, true);
+
+    ll pre=N;
+    while(!q.empty()){
+        auto [y, x]=q.front(); q.pop();
+        if(pre!=y){
+            rep(i, 0, N) if(S[y][i]=='#' && !vis[y][i]) rm[i]=false;
+            pre=y;
+        }
+        rep(i, -1, 2){
+            ll ny=y-1, nx=x+i;
+            if(outOfGrid(ny, nx, N, N)) continue;
+            if(vis[ny][nx]) continue;
+            if(S[ny][nx]=='.'){
+                vis[ny][nx]=true; q.push({ny, nx}); continue;
+            }
+            if(rm[nx]){
+                vis[ny][nx]=true; q.push({ny, nx}); continue;
+            }
+        }
+    }
+
+    rep(i, 0, N){
+        if(vis[0][i]) cout << 1;
+        else cout << 0;
+    }
+    cout << "\n";
 }
 
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     // テストケースが1つの場合
-    solve();
+    // solve();
 
     // テストケースが複数ある場合
-    // int t;
-    // cin >> t;
-    // while (t--) {
-    //     solve();
-    // }
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
     return 0;
 }

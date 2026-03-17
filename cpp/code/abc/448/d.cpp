@@ -71,7 +71,7 @@ template<class T> bool chmin(T &a, const T &b) {
  * 今までに訪れた頂点の整数の個数をmapで管理してDFS
  * 該当頂点(頂点to)に対して、
  * - m[A[to]]>=2であればtrue
- * - m[A[to]]==1であれば, ans[to]==ans[from](この頂点の寄与によってansが変わらないから, 頂点toの根ｂのansと等しい)
+ * - m[A[to]]==1であれば, ans[to]==ans[from](この頂点の寄与によってansが変わらないから, 頂点toの根vのansと等しい)
  */
 void solve() {
     // ロジックをちゃんと考える！！！

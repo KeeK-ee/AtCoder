@@ -69,44 +69,55 @@ template<class T> bool chmin(T &a, const T &b) {
 
 /**
  * x座標は固定しそう
+ * このときD<=y<=Uのyについて黒の個数を求める
+ * 図から大きく3つの部分に分割できる
+ * 1. 黒or白が連続する部分(-abs(x)<=y<=abs(x))
+ * 2. 1より上の部分(白黒が交互)
+ * 3. 1より下の部分(白黒が交互)
+ * それぞれの部分について上端と下端を計算して, 範囲が正であれば数える
+ * 2の下端と3の上端が間違いやすい
+ * 2の下端はmax(ax+1, D)であってmin(ax, U)+1ではない(具体的な値で考えても一見同じに見えるから間違う、範囲が上の方に振り切った場合を考えると分かる)
  */
 void solve() {
     // ロジックをちゃんと考える！！！
     ll L, R, D, U; cin >> L >> R >> D >> U;
+
     ll ans=0;
     rep(x, L, R+1){
         // x座標をxで固定し, x上の黒を数える
-        ll p = max(abs(D), abs(U)), q=min(abs(D), abs(U));
-        ll a=abs(x);
-        if(p<=a) {
-            if(!(a%2)) ans+=(U-D+1);
+        ll ax=abs(x), tmp=0;
+
+        // 黒or白が連続する区間
+        if(ax%2==0) {
+            ll u=min(ax, U), d=max(-ax, D);
+            if(d<=u) tmp+=(u-d+1);
         }
-        else if(a<=q){
-            ll c=U-D+1;
-            if(c%2==0) ans+=c/2;
-            else {
-                if(U%2) ans+=c/2;
-                else ans+=(c+1)/2;
+
+        // 上端
+        {
+            ll u=U, d=max(ax+1, D);
+            if(d<=u) {
+                if((u-d+1)%2==0) tmp+=(u-d+1)/2;
+                else {
+                    if(u%2) tmp+=(u-d+1)/2;
+                    else tmp+=(u-d+2)/2;
+                }
             }
         }
-        else{
-            ll nq,np;
-            if(q==abs(D)) {nq=D; np=U;}
-            else {nq=U; np=D;}
-            ll c1;
-            if(x>=0) c1=x-nq+1;
-            else c1=-nq-x+1;
-            if(!(a%2)) ans+=(c1);
-            // cout << "c1:" << c1 << " ";
-            ll c2=U-D+1-(c1);
-            if(c2%2==0) ans+=c2/2;
-            else {
-                if(np%2) ans+=c2/2;
-                else ans+=(c2+1)/2;
+
+        // 下端
+        {
+            ll u=min(-ax-1, U), d=D;
+            if(d<=u) {
+                if((u-d+1)%2==0) tmp+=(u-d+1)/2;
+                else {
+                    if(d%2) tmp+=(u-d+1)/2;
+                    else tmp+=(u-d+2)/2;
+                }
             }
-            // cout << "c2:" << c2 << " ";
         }
-        // cout << ans << " ";
+
+        ans+=tmp;
     }
     out(ans);
 }

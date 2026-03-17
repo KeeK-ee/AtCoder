@@ -58,6 +58,13 @@ template<class T> bool chmin(T &a, const T &b) {
  * XjとXj+Yj-1の間にリストに含まれる数を数えて、あとから足す->最悪ケース(リストが1, 2, 3...3e15でクエリが1, 1の場合はO(Q*N))ダメ
  * 
  * わからん(1/24)
+ * 
+ * 答えでにぶたん
+ * 値をxで固定したときに「xがX[idx]以上の整数であってリストに含まれないもののうち, 小さい方からY[idx]番目以上か？」
+ * これを満たす最小値を求める(O(Q*log(max(A))*logN))
+ * - X[idx]以上x以下の個数がmx
+ * - X[idx]以上x以下のリストに含まれる個数はupper-lower
+ * 上-下で個数が分かる
  */
 void solve() {
 // ロジックをちゃんと考える！！！
@@ -66,17 +73,26 @@ void solve() {
     rep(i, 0, N) cin >> A[i];
     vl X(Q), Y(Q);
     rep(i, 0, Q) cin >> X[i] >> Y[i];
+
     sort(all(A));
+
+    auto check = [&](ll x, ll idx) -> bool {
+        // xがX[idx]以上の整数であってリストに含まれないもののうち, 小さい方からY[idx]番目以上か？
+        if(x<X[idx]) return false;
+        ll mx=x-X[idx]+1;
+        auto l=lower_bound(all(A), X[idx]);
+        auto r=upper_bound(all(A), x);
+        return mx-(r-l)>=Y[idx];
+    };
+
     rep(i, 0, Q){
-        ll l=1, r=2e9;
-        while(l<r){
+        ll l=-1, r=INF;
+        while(r-l>1){
             ll m = (l+r)/2;
-            ll a = m-X[i]+1;
-            ll b = upper_bound(all(X), m) - lower_bound(all(X), X[i]);
-            if(a-b>=Y[i]) r = m;
-            else l = m+1;
+            if(check(m, i)) r=m;
+            else l=m;
         }
-        out(l);
+        out(l+1);
     }
 }
 
