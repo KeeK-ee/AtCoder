@@ -12,34 +12,51 @@
 #include <ranges>
 #include <cctype>
 #include <iomanip>
+#include <random>
 using namespace std;
 
-//#include "../../../ac-library-master/atcoder/dsu.hpp"
-//#include <atcoder/all>
-//using namespace atcoder;
+#include <boost/multiprecision/cpp_int.hpp>
+using namespace boost::multiprecision;
+
+#include <atcoder/all>
+using namespace atcoder;
 
 using ll = long long;
-using pii = pair<int, int>;
+using ull = unsigned long long;
+using ld = long double;
 using pll = pair<ll, ll>;
-using vi = vector<int>;
+using vpll = vector<pll>;
+using vvpll = vector<vpll>;
 using vl = vector<ll>;
-using vvi = vector<vi>;
 using vvl = vector<vl>;
+using vb = vector<bool>;
+using vvb = vector<vb>;
+using vs = vector<string>;
+using vc = vector<char>;
+using vvc = vector<vc>;
+using pq = priority_queue<ll>;
+using pq_min = priority_queue<ll, vector<ll>, greater<ll>>; //小さい順
+using mint = modint998244353;
+using bint = cpp_int;
 
-const ll INF = 1e18;
-const int MOD = 1000000007;
-const string LOWALP = "abcdefghijklmnopqrstuvwxyz";
-const string UPALP = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const int dx[4] = {-1,0,1,0};
-const int dy[4] = {0,1,0,-1}; // 4近傍、上右下左
+const ll INF = 8'000'000'000'000'000'000LL; // 8*10^18
+const ll MOD = 998244353;
+const ld pi = 3.141592653589793238;
+const string abc = "abcdefghijklmnopqrstuvwxyz";
+const string ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const int dy4[4] = {-1,0,1,0};
+const int dx4[4] = {0,1,0,-1};
+const int dy8[8] = {-1, -1, 0, 1, 1, 1, 0, -1};
+const int dx8[8] = {0, 1, 1, 1, 0, -1, -1, -1};
 
-#define rep(i, a, n) for (int i = a; i < (int)(n); ++i)
-#define rrep(i, a, n) for (int i = (int)(n) - 1; i >= a; --i)
+#define rep(i, a, n) for (ll i = a; i < (ll)(n); ++i)
+#define rrep(i, a, n) for (ll i = (ll)(n) - 1; i >= a; --i)
 #define all(x) (x).begin(), (x).end()
-#define sz(x) (int)(x).size()
+#define sz(x) (ll)(x).size()
 #define Yes cout << "Yes" << endl
 #define No cout << "No" << endl
 #define out(x) cout << x << "\n"
+#define fix cout << fixed <<  setprecision(15)
 
 template<class T> bool chmax(T &a, const T &b) {
     if (a < b) { a = b; return true; }
@@ -50,14 +67,34 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 一度アップグレードしたバージョンについてはもう見なくてよい
+ */
 void solve() {
-    int N, Q;
-    cin >> N >> Q;
-    int XY[Q][2];
-    rep(i, 0, Q){
-        cin >> XY[i][0] >> XY[i][1];
+    // ロジックをちゃんと考える！！！
+    ll N, Q; cin >> N >> Q;
+    vl X(Q), Y(Q);
+    rep(i, 0, Q) {
+        cin >> X[i] >> Y[i];
+        X[i]--; Y[i]--;
     }
-    
+
+    map<ll, ll> m;
+    pq_min q;
+    rep(i, 0, N){
+        m[i]++; q.push(i);
+    }
+    rep(i, 0, Q){
+        ll ans=0;
+        while(true){
+            auto idx=q.top();
+            if(X[i]<idx) break;
+            ans+=m[idx];
+            q.pop();
+        }
+        m[Y[i]]+=ans;
+        out(ans);
+    }
 }
 
 int main() {
