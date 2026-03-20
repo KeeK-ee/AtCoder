@@ -67,9 +67,29 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 美しい文字列<==>文字列の0が偶数個　の変換
+ * 上記を求めるためのdp
+ */
 void solve() {
     // ロジックをちゃんと考える！！！
-    
+    ll N; cin >> N;
+    string T; cin >> T;
+    vvl dp(N+1, vl(2));
+    dp[0][0]=0; dp[0][1]=0;
+    rep(i, 1, N+1){
+        if(T[i-1]=='0'){
+            dp[i][0]=dp[i-1][1];
+            dp[i][1]=dp[i-1][0]+1;
+        }
+        else{
+            dp[i][0]=dp[i-1][0]+1;
+            dp[i][1]=dp[i-1][1];
+        }
+    }
+    ll ans=0;
+    rep(i, 0, N+1) ans+=dp[i][0];
+    out(ans);
 }
 
 int main() {
