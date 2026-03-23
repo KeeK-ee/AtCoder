@@ -50,8 +50,39 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 煙は固定で高橋くんと焚火の位置が変化すると考える
+ * 座標の有無はsetで管理
+ */
 void solve() {
-    
+    ll N, R, C; cin >> N >> R >> C;
+    R*=-1;
+    string S; cin >> S;
+
+    set<pll> s;
+    pll n={C, R}, t={0, 0};
+    s.insert(t);
+    rep(i, 0, N){
+        if(S[i]=='N'){
+            n.second--;
+            t.second--;
+        }
+        else if(S[i]=='W'){
+            n.first++;
+            t.first++;
+        }
+        else if(S[i]=='S'){
+            n.second++;
+            t.second++;
+        }
+        else{
+            n.first--;
+            t.first--;
+        }
+        s.insert(t);
+        if(s.count(n)) cout << 1;
+        else cout << 0;
+    }
 }
 
 int main() {
