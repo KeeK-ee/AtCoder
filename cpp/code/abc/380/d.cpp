@@ -67,9 +67,29 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 2進数で表したときの1の数の偶奇で決まる
+ */
 void solve() {
     // ロジックをちゃんと考える！！！
-    
+    string S; cin >> S;
+    ll Q; cin >> Q;
+
+    auto flip = [&](char c) -> char {
+        if(isupper(c)) return tolower(c);
+        else return toupper(c);
+    };
+
+    rep(qi, 0, Q){
+        ll k; cin >> k; k--;
+        ll s=k/(sz(S));
+        ll a=k%(sz(S));
+        // sブロック目のa文字目を求める
+        int p=__popcount((ull)s);
+        char ans=S[a];
+        if(p%2) ans=flip(ans);
+        cout << ans << " ";
+    }
 }
 
 int main() {
