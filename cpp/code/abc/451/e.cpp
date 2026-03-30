@@ -72,90 +72,105 @@ template<class T> bool chmin(T &a, const T &b) {
 ll ceilDiv (ll x, ll y){if(x >= 0){return (x+y-1)/y;}else{return x/y;}}
 ll floorDiv (ll x, ll y){if(x >= 0){return x/y;}else{return (x-y+1)/y;}}
 
-// 重み付きUnion-Find
-struct PotentializedUnionFind {
-    vector<int> par;
-    vector<ll> weight;
 
-    PotentializedUnionFind(int n) {
-        par.resize(n);
-        iota(par.begin(), par.end(), 0);
-        weight.assign(n, 0);
-    }
+struct UnionFind {
+    std::vector<int> parent_or_size;
 
-    int find(int x) {
-        if (par[x] == x) {
-            return x;
+    UnionFind(int n) : parent_or_size(n, -1) {}
+
+    int leader(int a) {
+        if (parent_or_size[a] < 0) {
+            return a;
         }
-        int root = find(par[x]);
-        weight[x] += weight[par[x]];
-        return par[x] = root;
+        return parent_or_size[a] = leader(parent_or_size[a]);
     }
 
-    void merge(int x, int y, ll w) {
-        int rx = find(x);
-        int ry = find(y);
-        if (rx == ry) return;
-        par[ry] = rx;
-        weight[ry] = w + weight[x] - weight[y];
+    int merge(int a, int b) {
+        int x = leader(a);
+        int y = leader(b);
+        if (x == y) return x;
+        
+        if (-parent_or_size[x] < -parent_or_size[y]) {
+            std::swap(x, y);
+        }
+        
+        parent_or_size[x] += parent_or_size[y];
+        parent_or_size[y] = x;
+        return x;
     }
 
-    bool same(int x, int y) {
-        return find(x) == find(y);
+    bool same(int a, int b) {
+        return leader(a) == leader(b);
     }
 
-    ll diff(int x, int y) {
-        // yの重み - xの重み (B_y - B_x)
-        return weight[y] - weight[x];
+    int size(int a) {
+        return -parent_or_size[leader(a)];
+    }
+
+    std::vector<std::vector<int>> groups() {
+        int n = parent_or_size.size();
+        std::vector<int> leader_buf(n), group_size(n);
+        for (int i = 0; i < n; i++) {
+            leader_buf[i] = leader(i);
+            group_size[leader_buf[i]]++;
+        }
+        
+        std::vector<std::vector<int>> result(n);
+        for (int i = 0; i < n; i++) {
+            result[i].reserve(group_size[i]);
+        }
+        for (int i = 0; i < n; i++) {
+            result[leader_buf[i]].push_back(i);
+        }
+        
+        std::vector<std::vector<int>> final_result;
+        for (int i = 0; i < n; i++) {
+            if (!result[i].empty()) {
+                final_result.push_back(std::move(result[i]));
+            }
+        }
+        return final_result;
     }
 };
 
 /**
- * 各頂点からの距離が最小の頂点は必ずその頂点への辺が存在
- * 
+ * 各頂点において, 距離が最小の頂点に対しては必ずその頂点への辺が必要
+ * クラスカル法
  */
+using T = tuple<ll, ll, ll>;
 void solve() {
     // ロジックをちゃんと考える！！！
     ll N; cin >> N;
-    vvpll G(N);
+    priority_queue<T, vector<T>, greater<T>> q;
+    vvl A(N, vl(N));
     rep(i, 0, N-1){
         rep(j, i+1, N){
-            ll a; cin >> a;
-            G[i].push_back({a, j});
-            G[j].push_back({a, i});
+            ll a; cin >> a; q.push({a, i, j});
+            A[i][j]=a; A[j][i]=a;
         }
     }
-    vvl C(N, vl(N));
-    rep(i, 0, N){
-        for(auto [c, to] : G[i]){
-            C[i][to]=c; C[to][i]=c;
+    UnionFind uf(N);
+    vvpll G(N);
+    while(!q.empty()){
+        auto[c, u, v]=q.top(); q.pop();
+        if(!uf.same(u, v)){
+            uf.merge(u, v);
+            G[u].push_back({v, c}); G[v].push_back({u, c});
         }
     }
-    rep(i, 0, N) sort(all(G[i]));
-    set<tuple<ll, ll, ll>> s;
-    rep(i, 0, N){
-        auto [w, to]=G[i][0];
-        if(s.count({i, to, w}) || s.count({to, i, w})) continue;
-        else s.insert({i, to, w});
-    }
-    assert(sz(s)==N-1);
-    vvpll GG(N);
-    for(auto [u, v, w] : s){
-        G[u].push_back({v, w}); G[v].push_back({u, w});
-    }
-
     rep(i, 0, N){
         vl dist(N, INF); dist[i]=0;
-        queue<ll> q; q.push(i);
-        while(!q.empty()){
-            auto v = q.front(); q.pop();
-            for(auto [to, c] : GG[v]){
-                if(dist[to]!=INF) continue;
-                dist[to]=dist[v]+C[v][to];
-                q.push(to);
+        queue<ll> qu; qu.push(i);
+        while(!qu.empty()){
+            auto v=qu.front(); qu.pop();
+            for(auto [to, c] : G[v]) if(dist[to]==INF){
+                dist[to]=dist[v]+c;
+                qu.push(to);
             }
         }
-        rep(j, 0, N) if(dist[j]!=C[i][j]){ No; return; }
+        rep(j, 0, N) if(A[i][j]!=dist[j]){
+            No; return;
+        }
     }
     Yes;
 }
