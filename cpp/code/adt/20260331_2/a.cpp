@@ -75,10 +75,9 @@ ll floorDiv (ll x, ll y){if(x >= 0){return x/y;}else{return (x-y+1)/y;}}
 void solve() {
     // ロジックをちゃんと考える！！！
     string S; cin >> S;
-    vc ans;
-    ans.push_back(S[0]);
-    ans.push_back('U'); ans.push_back('P'); ans.push_back('C');
-    for(auto c : ans) cout << c;
+    string ans;
+    ans+=S[0]; ans+="UPC";
+    out(ans);
 }
 
 int main() {
