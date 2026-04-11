@@ -70,6 +70,7 @@ template<class T> bool chmin(T &a, const T &b) {
 /**
  * 美しい文字列<==>文字列の0が偶数個　の変換
  * 上記を求めるためのdp
+ * 不変量
  */
 void solve() {
     // ロジックをちゃんと考える！！！
