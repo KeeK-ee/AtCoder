@@ -45,6 +45,7 @@ const int dy4[4] = {-1,0,1,0};
 const int dx4[4] = {0,1,0,-1};
 const int dy8[8] = {-1, -1, 0, 1, 1, 1, 0, -1};
 const int dx8[8] = {0, 1, 1, 1, 0, -1, -1, -1};
+const string dir = "URDL";
 
 #define rep(i, a, n) for (ll i = a; i < (ll)(n); ++i)
 #define rrep(i, a, n) for (ll i = (ll)(n) - 1; i >= a; --i)
@@ -57,6 +58,24 @@ const int dx8[8] = {0, 1, 1, 1, 0, -1, -1, -1};
 #define se second
 #define fi first
 
+ll ceilDiv (ll x, ll y){if(x >= 0){return (x+y-1)/y;}else{return x/y;}}
+ll floorDiv (ll x, ll y){if(x >= 0){return x/y;}else{return (x-y+1)/y;}}
+
+template <typename T>
+void debug_print(const vector<T>& v) {
+    for (int i = 0; i < (int)v.size(); ++i) {
+        cerr << v[i] << (i == (int)v.size() - 1 ? "" : " ");
+    }
+    cerr << "\n";
+}
+template <typename T>
+
+void debug_print(const vector<vector<T>>& v) {
+    for (const auto& row : v) {
+        debug_print(row);
+    }
+}
+
 template<class T> bool chmax(T &a, const T &b) {
     if (a < b) { a = b; return true; }
     return false;
@@ -65,13 +84,8 @@ template<class T> bool chmin(T &a, const T &b) {
     if (a > b) { a = b; return true; }
     return false;
 }
-ll ceilDiv (ll x, ll y){if(x >= 0){return (x+y-1)/y;}else{return x/y;}}
-ll floorDiv (ll x, ll y){if(x >= 0){return x/y;}else{return (x-y+1)/y;}}
-
 void solve() {
     // ロジックをちゃんと考える！！！
-    ll N; cin >> N;
-    
 }
 
 int main() {
