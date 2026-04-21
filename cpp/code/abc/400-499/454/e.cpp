@@ -91,16 +91,58 @@ template<class T> bool chmin(T &a, const T &b) {
  * だがN^2-3は偶数のため矛盾
  * Nが偶数->(A, B)が黒だとダメ
  * 
- * あとは2行ずつ見てうまく構築する（ムズイ）
+ * あとは2列ずつ見てうまく構築する（ムズイ）
+ * - (A, B)をうまく避けながら進む
+ * - (A, B)をまだ通過していない
+ * - (A, B)をすでに通過した
+ * に分けて動きを実装
  */
 void solve() {
     // ロジックをちゃんと考える！！！
     ll N, A, B; cin >> N >> A >> B; A--; B--;
-    const string DIR = "LRUD";
+
+    // 判定
     if(N%2){ No; return; }
-    else if((A+B)%2==0) {No; return; }
+    else if((A+B)%2==0) { No; return; }
     Yes;
 
+    // 構築
+    string ans="";
+    ll y=0, x=0;
+    while(true){
+        if(N<=x) break;
+        if(x==2*(B/2)||x==2*(B/2)+1){
+            // (A, B)を避ける
+            // 右下左下
+            rep(i, 0, A/2) ans+="RDLD";
+            if(B%2) ans+="DR";
+            else ans+="RD";
+            rep(i, 0, (N-A-1)/2) ans+="DLDR";
+            ans += 'R';
+            x+=2; y=N-1;
+        }
+        else if(x<2*(B/2)){
+            // 下→右→上→右
+            ans += string(N-1, 'D');
+            ans += 'R';
+            ans += string(N-1, 'U');
+            ans += 'R';
+            x+=2;
+        }
+        else if(2*(B/2)+1<x){
+            // 上→右→下→右
+            ans += string(N-1, 'U');
+            ans += 'R';
+            ans += string(N-1, 'D');
+            ans += 'R';
+            x+=2;
+        }
+        else{
+            assert(false);
+        }
+    }
+    ans.pop_back();
+    out(ans);
 }
 
 int main() {
