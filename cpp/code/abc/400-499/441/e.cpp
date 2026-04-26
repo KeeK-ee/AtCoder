@@ -74,29 +74,48 @@ template<class T> bool chmin(T &a, const T &b) {
  * ->sum[r]>sum[l]の(l, r)の組の個数
  * ->転倒数の要領でBITでできる sum[i]は負の場合がある BTIではsum[i]の値を添え字にするから全ての要素を+Nする(sumの値は-Nより小さくならないから)
  */
+// void solve() {
+//     // ロジックをちゃんと考える！！！
+//     ll N; cin >> N;
+//     string S; cin >> S;
+//     vl L(N);
+//     rep(i, 0, N){
+//         if(S[i]=='A') L[i]=1;
+//         else if(S[i]=='B') L[i]=-1;
+//         else L[i]=0;
+//     }
+//     vl sumL(N+1);
+//     rep(i, 1, N+1) sumL[i]=sumL[i-1]+L[i-1];
+
+//     fenwick_tree<ll> BIT(3*N);
+//     ll ans=0;
+//     rep(i, 0, N+1){
+//         ll v=BIT.sum(0, sumL[i]+N);
+//         ans+=v;
+//         BIT.add(sumL[i]+N, 1);
+//     }
+//     out(ans);
+// }
+
 void solve() {
-    // ロジックをちゃんと考える！！！
     ll N; cin >> N;
     string S; cin >> S;
-    vl L(N);
+    vl V(N+1);
     rep(i, 0, N){
-        if(S[i]=='A') L[i]=1;
-        else if(S[i]=='B') L[i]=-1;
-        else L[i]=0;
+        if(S[i]=='A') V[i+1]=1;
+        else if(S[i]=='B') V[i+1]=-1;
+        else V[i+1]=0;
     }
-    vl sumL(N+1);
-    rep(i, 1, N+1) sumL[i]=sumL[i-1]+L[i-1];
-
-    fenwick_tree<ll> BIT(3*N);
+    rep(i, 1, N+1) V[i]+=V[i-1];
     ll ans=0;
+    fenwick_tree<ll> BIT(2*N+1);
     rep(i, 0, N+1){
-        ll v=BIT.sum(0, sumL[i]+N);
+        ll v=BIT.sum(0, V[i]+N);
         ans+=v;
-        BIT.add(sumL[i]+N, 1);
+        BIT.add(V[i]+N, 1);
     }
     out(ans);
 }
-
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
