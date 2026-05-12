@@ -2,13 +2,16 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build AtCoder C++ File", // 他と被らないユニークな名前に変更
+            "label": "Build AtCoder C++ File",
             "type": "shell",
             "command": "g++",
             "args": [
                 "-g",
-                "-std=c++20",
+                "-O2",                          // 追加: 最適化（AtCoder と同じ）
+                "-std=gnu++20",                 // gnu++ にすると __int128 など使える
                 "-Wall",
+                "-Wextra",                      // 追加: より厳しめの警告
+                "-fsanitize=undefined,address", // 追加: デバッグ時に未定義動作を検出（任意）
                 "-I",
                 "${workspaceFolder}/ac-library-master",
                 "${file}",
@@ -19,9 +22,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "problemMatcher": [
-                "$gcc"
-            ]
+            "problemMatcher": ["$gcc"]
         }
     ]
 }
