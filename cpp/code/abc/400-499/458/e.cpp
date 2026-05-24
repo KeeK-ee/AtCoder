@@ -87,13 +87,63 @@ template<class T> bool chmin(T &a, const T &b) {
 /**
  * 1をX1個, 2をX2個, 3をX3個使って数列を作ります. 1と3は隣り合ってはいけません. 
  * 数列は何通りありますか? mod998244353で求めてください. 
- * 2を配置すると隙間はX2+1個できる. ここには1がいくつかor3がいくつかor何も入らないのいずれかである. 
+ * 
+ * 2を配置すると隙間はX2+1個できる. それぞれの隙間に1がいくつかor3がいくつかor何も入らないのいずれかである. 
+ * - X2+1個の隙間のうちちょうどk(1<=k<=X2)個の隙間に1つ以上の1を入れる
+ * ->X2+1Ck通り
+ * - 
+ * - 残りのX2+1-k個の隙間のうち
  */
-void solve() {
+mint nCr2 (ll n, ll r){
+    mint a=1, b=1;
+    rrep(i, n-r+1, n+1) a*=i;
+    rep(i, 1, r+1) b*=i;
+    mint res =  a*(b.pow((ll)(mint::mod())-2));
+    return res.val();
+}
+void solve2() {
     // ロジックをちゃんと考える！！！
     ll X1, X2, X3; cin >> X1 >> X2 >> X3;
     mint ans=0;
+    rep(k, 1, X2+1){
+        mint a=nCr2(X2+1, k);
+        mint b=nCr2(X1-1, k-1);
+        mint c=nCr2(X3+X2-k, X2-k);
+        ans+=((mint)(a*b)*c);
+    }
+    out(ans.val());
+}
 
+
+// AC
+// 階乗と逆元の前計算
+// グローバルに前計算用のテーブル
+vector<mint> fact, inv_fact;
+
+void init_fact(ll N) {
+    fact.assign(N+1, 1);
+    inv_fact.assign(N+1, 1);
+    for (ll i = 1; i <= N; ++i) fact[i] = fact[i-1] * i;
+    inv_fact[N] = fact[N].inv();           // ACLのmintはinv()が使える
+    for (ll i = N; i >= 1; --i) inv_fact[i-1] = inv_fact[i] * i;
+}
+
+mint nCr(ll n, ll r) {
+    if (r < 0 || r > n || n < 0) return 0;
+    return fact[n] * inv_fact[r] * inv_fact[n-r];
+}
+
+void solve() {
+    ll X1, X2, X3; cin >> X1 >> X2 >> X3;
+    init_fact(X1 + X2 + X3 + 10);          // 必要な範囲だけ作れば十分
+
+    mint ans = 0;
+    rep(k, 1, X2+1) {
+        mint a = nCr(X2+1, k);
+        mint b = nCr(X1-1, k-1);
+        mint c = nCr(X3+X2-k, X2-k);
+        ans += a * b * c;
+    }
     out(ans.val());
 }
 
