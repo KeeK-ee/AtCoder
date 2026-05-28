@@ -69,7 +69,13 @@ template<class T> bool chmin(T &a, const T &b) {
 
 void solve() {
     // ロジックをちゃんと考える！！！
-    
+    string X, Y; cin >> X >> Y;
+    ll Q; cin >> Q;
+    rep(qi, 0, Q){
+        ll l, r; cin >> l >> r;
+        char c; cin >> c;
+        
+    }
 }
 
 int main() {

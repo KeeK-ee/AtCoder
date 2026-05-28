@@ -86,6 +86,7 @@ template<class T> bool chmin(T &a, const T &b) {
 
 vector<mint> fact, inv_fact;
 
+// O(1e6)程度までの前計算
 void init_fact(ll N) {
     fact.assign(N+1, 1);
     inv_fact.assign(N+1, 1);
@@ -94,12 +95,13 @@ void init_fact(ll N) {
     for (ll i = N; i >= 1; --i) inv_fact[i-1] = inv_fact[i] * i;
 }
 
-mint nCr(ll n, ll r) {
+mint nCr(ll n, ll r){
     if (r < 0 || r > n || n < 0) return 0;
     return fact[n] * inv_fact[r] * inv_fact[n-r];
 }
 
-mint nCr2 (ll n, ll r){
+// O(r)が小さい場合は都度計算する方法もある
+mint nCr2(ll n, ll r){
     mint a=1, b=1;
     rrep(i, n-r+1, n+1) a*=i;
     rep(i, 1, r+1) b*=i;
@@ -107,9 +109,15 @@ mint nCr2 (ll n, ll r){
     return res.val();
 }
 
+/**
+ * 木DPと組み合わせ
+ * - 葉から順番に決めていく
+ * - 余るアメを自身の親にマージしていく
+ * - 利用できるアメC集めるアメを掛算する
+ * - 利用できるアメから集めるアメを引く
+ */
 void solve() {
     // ロジックをちゃんと考える！！！
-    init_fact(1000005);
     ll N; cin >> N;
     vvl G(N);
     rep(i, 1, N){
