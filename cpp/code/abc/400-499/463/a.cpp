@@ -93,6 +93,9 @@ bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * やる
+ */
 void solve() {
     ll x, y; cin >> x >> y;
     if(16*y==9*x) Yes;
