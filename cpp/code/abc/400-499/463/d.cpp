@@ -94,11 +94,38 @@ bool chmin(T &a, const T &b) {
 }
 
 /**
- * K
  * 答えでにぶたんしそう
+ * check内は区間スケジューリングで貪欲
  */
 void solve() {
-    
+    ll N, K; cin >> N >> K;
+    vpll LR(N);
+    rep(i, 0, N){
+        ll l, r; cin >> l >> r;
+        LR[i].first=r; LR[i].second=l;
+    }
+    sort(all(LR));
+
+    auto check=[&](ll x) -> bool {
+        // 布同士の距離をx以上に保ちながら、重ならないK枚の布を選べるか？
+        ll cnt=0;
+        ll n=0;
+        rep(i, 0, N){
+            if(LR[i].second<n) continue;
+            n=LR[i].first; cnt++;
+            if(x==0) n++;
+            else n+=x;
+        }
+        return cnt>=K;
+    };
+
+    ll l=-1, r=INF;
+    while(r-l>1){
+        ll m=(l+r)/2;
+        if(check(m)) l=m;
+        else r=m;
+    }
+    out(l);
 }
 
 int main() {

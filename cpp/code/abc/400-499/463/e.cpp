@@ -93,8 +93,44 @@ bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 頂点1からのダイクストラをしたい
+ * 普通にグラフを構築すると辺がnC2本存在して無理
+ * 
+ * 頂点Nを作って、各頂点i(0~N-1)に対して
+ * - 頂点iから頂点NへコストXiの有向辺
+ * - 頂点Nから頂点iへコストXi+Yの有向辺
+ * を張ることで辺の数を削減
+ * 
+ * 無向辺を有向辺2本(行きと帰りでコストを変える)で表す
+ */
 void solve() {
-    
+    ll N, M, Y; cin >> N >> M >> Y;
+    vvpll G(N+1);
+    rep(i, 0, M){
+        ll u, v, t; cin >> u >> v >> t; u--; v--;
+        G[u].push_back({v, t}); G[v].push_back({u, t});
+    }
+    rep(i, 0, N){
+        ll x; cin >> x;
+        G[i].push_back({N, x}); G[N].push_back({i, x+Y});
+    }
+
+    vl dist(N+1, INF); dist[0]=0;
+    priority_queue<pll, vector<pll>, greater<pll>> q;
+    q.push({0, 0}); //{その頂点への現時点の最小コスト, 頂点番号}
+
+    while(!q.empty()){
+        auto [c, to] = q.top(); q.pop();
+        if(dist[to]!=c) continue; //確定している
+        for(auto [nv, nc] : G[to]){
+            if(dist[nv]<=c+nc) continue; //更新せず
+            dist[nv]=c+nc;
+            q.push({c+nc, nv});
+        }
+    }
+
+    rep(i, 1, N) cout << dist[i] << " ";
 }
 
 int main() {

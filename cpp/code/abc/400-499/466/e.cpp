@@ -93,22 +93,40 @@ bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * flipする区間において、区間同士は重ならないとしてOK
+ * 区間[0, N)を2*K+1個の区間に分割することを考える
+ * 区間の左(0-indexed)から偶数番目は表(=flipなし)奇数番目は裏(flip)するとしてDP
+ * dp[i][j]:i番目まで見て、i番目のカードがj番目の区間にあるとしたときのi番目までの表カードの数のmax
+ * ans: max(dp[N][0~2*K])
+ */
 void solve() {
     ll N, K; cin >> N >> K;
     vvl AB(N, vl(2));
     rep(i, 0, N) cin >> AB[i][0] >> AB[i][1];
-    vvl DP(N+1, vl(K+1));
-    rep(i, 0, K+1) DP[0][i]=0;
+    vvl dp(N+1, vl(2*K+1, 0));
+    rep(i, 0, 2*K+1) dp[0][i]=0;
 
     rep(i, 1, N+1){
-        rep(j, 0, K+1){
-            // flipしない
-            chmax(DP[i][j], DP[i-1])
+        rep(j, 0, 2*K+1){
+            // dp[i-1][]を見る
+
+            if(j%2==0) {
+                // flipしない
+                chmax(dp[i][j], dp[i-1][j]+AB[i-1][0]); // 区間継続
+                if(j-1>=0) chmax(dp[i][j], dp[i-1][j-1]+AB[i-1][0]); // 新たな区間に変わる
+            }
+            else{
+                // flipする
+                chmax(dp[i][j], dp[i-1][j]+AB[i-1][1]); // 区間継続
+                if(j-1>=0) chmax(dp[i][j], dp[i-1][j-1]+AB[i-1][1]); // 新たな区間に変わる
+            }
+            
         }
     }
 
     ll ans=-INF;
-    rep(i, 0, K+1) chmax(ans, DP[N][i]);
+    rep(i, 0, 2*K+1) chmax(ans, dp[N][i]);
     out(ans);
 }
 

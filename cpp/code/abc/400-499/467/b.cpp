@@ -93,6 +93,9 @@ bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * やる
+ */
 void solve() {
     ll N; cin >> N;
     ll ans=0;

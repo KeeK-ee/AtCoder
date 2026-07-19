@@ -15,11 +15,8 @@
 #include <random>
 using namespace std;
 
-// #include <boost/multiprecision/cpp_int.hpp>
-// using namespace boost::multiprecision;
-
-// #include <atcoder/all>
-// using namespace atcoder;
+#include <atcoder/all>
+using namespace atcoder;
 
 using ll = long long;
 using ull = unsigned long long;
@@ -35,10 +32,7 @@ using vvb = vector<vb>;
 using vs = vector<string>;
 using vc = vector<char>;
 using vvc = vector<vc>;
-using pq = priority_queue<ll>;
-using pq_min = priority_queue<ll, vector<ll>, greater<ll>>; //小さい順
-// using mint = modint998244353;
-// using bint = cpp_int;
+using mint = modint998244353;
 
 const ll INF = 8'000'000'000'000'000'000LL; // 8*10^18
 const ll MOD = 998244353;
@@ -49,6 +43,7 @@ const int dy4[4] = {-1,0,1,0};
 const int dx4[4] = {0,1,0,-1};
 const int dy8[8] = {-1, -1, 0, 1, 1, 1, 0, -1};
 const int dx8[8] = {0, 1, 1, 1, 0, -1, -1, -1};
+const string dir = "URDL";
 
 #define rep(i, a, n) for (ll i = a; i < (ll)(n); ++i)
 #define rrep(i, a, n) for (ll i = (ll)(n) - 1; i >= a; --i)
@@ -61,33 +56,72 @@ const int dx8[8] = {0, 1, 1, 1, 0, -1, -1, -1};
 #define se second
 #define fi first
 
-template<class T> bool chmax(T &a, const T &b) {
-    if (a < b) { a = b; return true; }
-    return false;
-}
-template<class T> bool chmin(T &a, const T &b) {
-    if (a > b) { a = b; return true; }
-    return false;
-}
 ll ceilDiv (ll x, ll y){if(x >= 0){return (x+y-1)/y;}else{return x/y;}}
 ll floorDiv (ll x, ll y){if(x >= 0){return x/y;}else{return (x-y+1)/y;}}
 
+template <typename T> using pq = priority_queue<T>;
+template <typename T> using pq_min = priority_queue<T, vector<T>, greater<T>>; //小さい順
+
+ll llpow(ll a, ll b) {
+    ll res=1;
+    rep(i, 0, b) res*=a;
+    return res;
+}
+
+template <typename T>
+void debug_print(const vector<T>& v) {
+    for (int i = 0; i < (int)v.size(); ++i) {
+        cerr << v[i] << (i == (int)v.size() - 1 ? "" : " ");
+    }
+    cerr << "\n";
+}
+template <typename T>
+void debug_print(const vector<vector<T>>& v) {
+    for (const auto& row : v) {
+        debug_print(row);
+    }
+}
+
+template<class T>
+bool chmax(T &a, const T &b) {
+    if (a < b) { a = b; return true; }
+    return false;
+}
+template<class T>
+bool chmin(T &a, const T &b) {
+    if (a > b) { a = b; return true; }
+    return false;
+}
+
+/**
+ * 正方形から左下を横に削った形が最適
+ */
 void solve() {
-    // ロジックをちゃんと考える！！！
-    
+    ld eps=0.0001;
+    ll N; cin >> N;
+    ll yoko=ceil(sqrt(N)-eps);
+    ll tate=N/yoko;
+    ll nokori=N-(yoko*tate);
+    ll ans=0;
+    ans+=(yoko-1)*tate;
+    if(nokori!=0) ans+=(nokori-1);
+    if(nokori==0){
+        ans+=(tate-1)*yoko;
+    }
+    else{
+        ans+=tate*nokori;
+        ans+=(tate-1)*(yoko-nokori);
+    }
+    out(ans);
 }
 
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
-    // テストケースが1つの場合
-    solve();
 
-    // テストケースが複数ある場合
-    // int t;
-    // cin >> t;
-    // while (t--) {
-    //     solve();
-    // }
+    int t=1;
+    cin >> t;
+    while (t--) solve();
+
     return 0;
 }

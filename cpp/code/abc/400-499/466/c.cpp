@@ -98,40 +98,44 @@ bool chmin(T &a, const T &b) {
  * 尺取りすればO(N)で解ける
  * にぶたんはO(NlogN)でダメ
  */
+// void solve() {
+//     ll N; cin >> N;
+//     ll ans=0;
+//     ll idx=1, r=2;
+//     while(true){
+//         if(idx>=N+1) break;
+//         if(idx==r) r++;
+//         while(r<=N){
+//             cout << '?' << " " << idx << " " << r << endl;
+//             string s; cin >> s;
+//             if(s=="Yes") r++;
+//             else break;
+//         }
+//         ans+=r-idx-1;
+//         idx++;
+//     }
+//     cout << '!' << " " << ans << endl;
+// }
+
+/**
+ * cinで入力待ちをしてくれるためwhle(true)はいらない
+ */
 void solve() {
     ll N; cin >> N;
     ll ans=0;
-    ll idx=1, r=2;
-    while(true){
-        if(idx>=N+1) break;
-        if(idx==r) r++;
-        while(r<=N){
-            cout << '?' << " " << idx << " " << r << endl;
+    ll j=2;
+    rep(i, 1, N+1){
+        j=max(i+1, j);
+        while(j<=N){
+            cout << '?' << " " << i << " " << j << endl;
             string s; cin >> s;
-            if(s=="Yes") r++;
+            if(s=="Yes") j++;
             else break;
         }
-        ans+=r-idx-1;
-        idx++;
+        ans+=j-i-1;
     }
     cout << '!' << " " << ans << endl;
 }
-
-// void solve() {
-// // ロジックをちゃんと考える！！！
-//     ll N; cin >> N;
-//     vb seen(2*N+1);
-//     while (true)
-//     {
-//         ll i=0;
-//         while(i<2*N+1 && seen[i]==true) i++;
-//         cout << i+1 << endl;
-//         seen[i]=true;
-//         ll a; cin >> a;
-//         seen[a-1]=true;
-//     }
-    
-// }
 
 int main() {
     ios_base::sync_with_stdio(false);

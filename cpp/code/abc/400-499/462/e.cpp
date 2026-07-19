@@ -93,6 +93,14 @@ bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * XとYのどちらかが負のとき、正の値にしても一般性は失わないのでabsをとる
+ * (0, 0)から(X, Y)への長方形領域が縦長の場合と横長の場合で場合分けが煩雑
+ * ->横長で統一する. swapした場合はAとBもswapする
+ * - min(A, B)でジグザグして(X-Y, Y)に到達
+ * - A>3*BやB>3*Aのときジグザグ双方が最適
+ * ->直進する場合とジグザグする場合で場合分け
+ */
 void solve() {
     ll A, B, X, Y; cin >> A >> B >> X >> Y;
     ll ans=0;
@@ -103,11 +111,18 @@ void solve() {
     ll mab=min(A, B);
     ans+=mab*2*Y;
     X-=Y;
-    if(X%2==0){
-        // 
+    if(!(A>3*B or B>3*A)){
+        // 直進
+        if(X%2==0) ans+=(A+B)*X/2;
+        else ans+=(A+B)*(X-1)/2+A;
+    }
+    else if(A>3*B){
+        if(X%2==0) ans+=4*B*X/2;
+        else ans+=4*B*(X+1)/2-B;
     }
     else{
-
+        if(X%2==0) ans+=4*A*X/2;
+        else ans+=4*A*(X+1)/2-3*A;
     }
     out(ans);
 }
