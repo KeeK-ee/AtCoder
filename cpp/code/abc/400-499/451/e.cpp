@@ -136,6 +136,7 @@ struct UnionFind {
 /**
  * 各頂点において, 距離が最小の頂点に対しては必ずその頂点への辺が必要
  * クラスカル法
+ * あまり分からない
  */
 using T = tuple<ll, ll, ll>;
 void solve() {
