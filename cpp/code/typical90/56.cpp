@@ -62,6 +62,9 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * ナップザック復元
+ */
 void solve() {
 // ロジックをちゃんと考える！！！
     ll N, S; cin >> N >> S;

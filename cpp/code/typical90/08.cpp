@@ -66,16 +66,16 @@ bool out_of_grid(ll y, ll x, ll H, ll W) {
 /**
  * 耳DPというらしい
  * map['?']: 文字?を末尾とする文字列"atcoder"の一部を構成できる組み合わせ
+ * オートマトンDPともいう？
  */
 void solve() {
 // ロジックをちゃんと考える！！！
     ll N; cin >> N;
     string S; cin >> S;
 
-    map<char, ll> cnt; map<char, mint> m;
+   map<char, mint> m;
     rep(i, 0, N){
         // S[i]について
-        cnt[S[i]]++;
         if(S[i]=='a'){
             m[S[i]]++;
         }

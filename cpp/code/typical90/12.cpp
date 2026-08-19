@@ -63,6 +63,10 @@ bool out_of_grid(ll y, ll x, ll H, ll W) {
     return (y < 0 || x < 0 || y >= H || x >= W);
 }
 
+/**
+ * グリッドとUFを管理する
+ * クエリ1で4近傍に赤があればmergeする
+ */
 void solve() {
 // ロジックをちゃんと考える！！！
     ll H, W; cin >> H >> W;

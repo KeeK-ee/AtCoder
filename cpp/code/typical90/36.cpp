@@ -68,7 +68,7 @@ template<class T> bool chmin(T &a, const T &b) {
  * X=x-y, Y=x+yで変換すると45度回転できる
  * 45度回転後の2座標(a, b)と(c, d)のマンハッタン距離=max(abs(a-c), abs(b-d))
  * (x座標の差かy座標の差の大きい方)
- * あとはbounding boxみたいに4点求めて差のmax
+ * あとはbounding boxみたいに4点求めて差のmax(上の式よりx座標とy座標独立に考えられるから)
  */
 void solve() {
     // ロジックをちゃんと考える！！！

@@ -66,6 +66,7 @@ bool out_of_grid(ll y, ll x, ll H, ll W) {
 /**
  * dirに対して進めるだけ進むBFS
  * if(dist[ny][nx]==dist[y][x]) break;がないとTLEした
+ * 0-1BFSでもできそう
  */
 void solve() {
 // ロジックをちゃんと考える！！！
