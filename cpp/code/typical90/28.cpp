@@ -65,6 +65,7 @@ bool out_of_grid(ll y, ll x, ll H, ll W) {
 
 /**
  * 座標に対するimos法はデクリメント注意
+ * 「座標」だからc--; d--;する
  */
 void solve() {
 // ロジックをちゃんと考える！！！

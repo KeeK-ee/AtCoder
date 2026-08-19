@@ -108,11 +108,43 @@ void solve() {
     else out(dp[N].get(W));
 }
 
+/**
+ * 遷移をsegtreeで高速化
+ * ll l=max(j-R[i-1], 0LL);
+ * ll r=max(j-L[i-1]+1, 0LL);
+ * に注意
+ */
+void solve2(){
+    ll W, N; cin >> W >> N;
+    vector<ll> L(N), R(N), V(N);
+    rep(i, 0, N) cin >> L[i] >> R[i] >> V[i];
+    vector<vector<ll>> dp(N+1, vector<ll>(W+1, -INF));
+    dp[0][0]=0;
+    rep(i, 1, N+1){
+        segtree<ll, op, e> seg(W+1);
+        rep(j, 0, W+1) seg.set(j, dp[i-1][j]);
+        rep(j, 0, W+1){
+            // dp[i][j]を決める
+
+            // 料理iを作らない
+            chmax(dp[i][j], dp[i-1][j]);
+
+            // 料理iを作る
+            // dp[i][j]=dp[i-1][j-R[i-1]]~dp[i-1][j-L[i-1]]のmax
+            ll l=max(j-R[i-1], 0LL);
+            ll r=max(j-L[i-1]+1, 0LL);
+            if(l<r) chmax(dp[i][j], seg.prod(l, r)+V[i-1]);
+        }
+    }
+    if(dp[N][W]<=0) out(-1);
+    else out(dp[N][W]);
+}
+
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     // テストケースが1つの場合
-    solve();
+    solve2();
 
     // テストケースが複数ある場合
     // int t;

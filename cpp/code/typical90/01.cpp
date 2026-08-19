@@ -65,6 +65,7 @@ bool out_of_grid(ll y, ll x, ll H, ll W) {
 
 /**
  * 最小値の最大値->答えでにぶたん
+ * checkパートは左から貪欲が最適
  */
 void solve() {
 // ロジックをちゃんと考える！！！

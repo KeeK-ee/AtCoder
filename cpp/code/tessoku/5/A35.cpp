@@ -56,6 +56,7 @@ template<class T> bool chmin(T &a, const T &b) {
 }
 
 /**
+ * min-max法 後ろから考える
  * 盤面をdp配列で管理
  * dp[i][j]:(i, j)から互いが最善手を打った時のスコア
  * dp[N-1][j] = A[j]

@@ -60,6 +60,7 @@ template<class T> bool chmin(T &a, const T &b) {
 
 /**
  * 1e18はdouble型のため, 桁の大きい計算では誤差がでる可能性あり
+ * a*b<=cとa<=floor(b/c)(切り捨て除算)は同値
  */
 void solve() {
 // ロジックをちゃんと考える！！！
