@@ -66,6 +66,10 @@ template<class T> bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 連結性判定とBFS, DFSでOK
+ * Pufでも解けるらしいけどPufの型を変えないといけなさそう？
+ */
 void solve() {
     // ロジックをちゃんと考える！！！
     ll N, M; cin >> N >> M;
