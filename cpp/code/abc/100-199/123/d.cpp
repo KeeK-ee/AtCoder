@@ -1,0 +1,118 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <numeric>
+#include <cmath>
+#include <map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <functional>
+#include <ranges>
+#include <cctype>
+#include <iomanip>
+#include <random>
+using namespace std;
+
+#include <atcoder/all>
+using namespace atcoder;
+
+using ll = long long;
+using ull = unsigned long long;
+using int128 = __int128_t;
+using ld = long double;
+using pll = pair<ll, ll>;
+template <typename T> using Vec = vector<T>;
+using mint = modint998244353;
+
+const ll INF = 8'000'000'000'000'000'000LL; // 8*10^18
+const ll MOD = 998244353;
+const ld pi = 3.141592653589793238;
+const string abc = "abcdefghijklmnopqrstuvwxyz";
+const string ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const int dy4[4] = {-1,0,1,0};
+const int dx4[4] = {0,1,0,-1};
+const int dy8[8] = {-1, -1, 0, 1, 1, 1, 0, -1};
+const int dx8[8] = {0, 1, 1, 1, 0, -1, -1, -1};
+const string dir = "URDL";
+
+#define rep(i, a, n) for (ll i = a; i < (ll)(n); ++i)
+#define rrep(i, a, n) for (ll i = (ll)(n) - 1; i >= a; --i)
+#define all(x) (x).begin(), (x).end()
+#define sz(x) (ll)(x).size()
+#define Yes cout << "Yes" << endl
+#define No cout << "No" << endl
+#define out(x) cout << x << "\n"
+#define fix cout << fixed <<  setprecision(15)
+
+ll ceilDiv (ll x, ll y){if(x >= 0){return (x+y-1)/y;}else{return x/y;}}
+ll floorDiv (ll x, ll y){if(x >= 0){return x/y;}else{return (x-y+1)/y;}}
+
+template <typename T> using pq = priority_queue<T>;
+template <typename T> using pq_min = priority_queue<T, vector<T>, greater<T>>; //小さい順
+
+ll llpow(ll a, ll b) {
+    ll res=1;
+    rep(i, 0, b) res*=a;
+    return res;
+}
+
+template <typename T>
+void debug_print(const vector<T>& v) {
+    for (int i = 0; i < (int)v.size(); ++i) {
+        cerr << v[i] << (i == (int)v.size() - 1 ? "" : " ");
+    }
+    cerr << "\n";
+}
+template <typename T>
+void debug_print(const vector<vector<T>>& v) {
+    for (const auto& row : v) {
+        debug_print(row);
+    }
+}
+
+template<class T>
+bool chmax(T &a, const T &b) {
+    if (a < b) { a = b; return true; }
+    return false;
+}
+template<class T>
+bool chmin(T &a, const T &b) {
+    if (a > b) { a = b; return true; }
+    return false;
+}
+
+/**
+ * 探索候補を絞る
+ * A+Bを全列挙->そのうち上位K個だけしか考えなくていい(O(XYlogXY))
+ * 上位K個とCの組み合わせを全探索可能(O(CKlogCK))
+ */
+void solve() {
+    ll X, Y, Z, K; cin >> X >> Y >> Z >> K;
+    Vec<ll> A(X), B(Y), C(Z);
+    rep(i, 0, X) cin >> A[i];
+    rep(i, 0, Y) cin >> B[i];
+    rep(i, 0, Z) cin >> C[i];
+    Vec<ll> AB;
+    rep(i, 0, X)rep(j, 0, Y) AB.push_back(A[i]+B[j]);
+    sort(all(AB)); reverse(all(AB));
+
+    Vec<ll> ans;
+    rep(i, 0, min(K, sz(AB)))rep(j, 0, Z){
+        ans.push_back(AB[i]+C[j]);
+    }
+    sort(all(ans));reverse(all(ans));
+    rep(i, 0, K) out(ans[i]);
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int t=1;
+    // cin >> t;
+    while (t--) solve();
+
+    return 0;
+}
