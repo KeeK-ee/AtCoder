@@ -27,12 +27,12 @@ x
 
 o
 - 累積和：大量の区間和(16) o
-- 累積和：zero-sum-ranges(19)
+- 累積和：zero-sum-ranges(19) o
 - スタック：括弧列(17) o
-- スタック：Aj<=Ai(13)
+- スタック：Aj<=Ai(13) o
 - queue(10) o
 - 優先度付きキュー：Greedy(17)
-- interval set(13)
+- interval set(13) o
 - 桁DP(18)
 - LIS(11)
 - グラフの基礎(11) o
