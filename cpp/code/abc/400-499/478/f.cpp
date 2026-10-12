@@ -82,8 +82,36 @@ bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * case1
+ * 5
+ * 1 3 4 2 5
+ * Qを前から見て木を構成する. 1を根とした木で考える.
+ * - 3->1の子とする1通り
+ * - 4->1の子とする, 3の子とする2通り
+ * - 2->4の子とする1通り
+ * - 5->1, 3, 4, 2の子とする4通り
+ * Qiの寄与は「i-「Qiより左の要素のうち, Qi以上なる最右のidx」, 存在しなければi(0-indexed)」
+ * これの総積が答え
+ * 愚直はO(N^2)
+ * Qi->iとした区間maxのセグ木を用意すると, prod(Qi, N)が上記の「」部分に対応するためO(NlogN)
+ */
+ll op(ll a, ll b){ return max(a, b); }
+ll e(){ return 0; }
 void solve() {
-    
+    ll N; cin >> N;
+    Vec<ll> Q(N);
+    rep(i, 0, N) {
+        cin >> Q[i]; Q[i]--;
+    }
+    segtree<ll, op, e> seg(N);
+    mint ans=1;
+    rep(i, 1, N){
+        mint tmp=i-seg.prod(Q[i]+1, N);
+        ans*=tmp;
+        seg.set(Q[i], i);
+    }
+    out(ans.val());
 }
 
 int main() {
