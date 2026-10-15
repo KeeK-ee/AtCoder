@@ -64,22 +64,45 @@ ll e() {return -INF;}
  * set(idx, value)
  * prod(l, r) -> 区間l~r-1に対しての操作結果
  */
-void solve() {
-// ロジックをちゃんと考える！！！
+// void solve() {
+// // ロジックをちゃんと考える！！！
+//     ll N, Q; cin >> N >> Q;
+//     segtree<ll, op, e> seg(N);
+//     rep(i, 0, N) seg.set(i, 0);
+//     rep(qi, 0, Q){
+//         int op; cin >> op;
+//         if(op==1){
+//             ll pos, x; cin >> pos >> x;
+//             pos--;
+//             seg.set(pos, x);
+//         }
+//         else{
+//             ll l, r; cin >> l >> r;
+//             l--; r--;
+//             out(seg.prod(l, r));
+//         }
+//     }
+// }
+
+void solve2(){
     ll N, Q; cin >> N >> Q;
-    segtree<ll, op, e> seg(N);
-    rep(i, 0, N) seg.set(i, 0);
+    auto op = [&](ll a, ll b) -> ll {
+        return max(a, b);
+    };
+    auto e = [&]() -> ll { 
+        return -INF;
+    };
+    segtree<ll, op, e> max_seg(N);
+    rep(i, 0, N) max_seg.set(i, 0);
     rep(qi, 0, Q){
         int op; cin >> op;
         if(op==1){
-            ll pos, x; cin >> pos >> x;
-            pos--;
-            seg.set(pos, x);
+            ll pos, x; cin >> pos >> x; pos--;
+            max_seg.set(pos, x);
         }
         else{
-            ll l, r; cin >> l >> r;
-            l--; r--;
-            out(seg.prod(l, r));
+            ll l, r; cin >> l >> r; l--; r--;
+            out(max_seg.prod(l, r));
         }
     }
 }
@@ -88,7 +111,7 @@ int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     // テストケースが1つの場合
-    solve();
+    solve2();
 
     // テストケースが複数ある場合
     // int t;

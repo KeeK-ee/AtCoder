@@ -1257,5 +1257,31 @@
 			"// next_valueは[l,r)の範囲でval以上の最小値を返す, なければ-1",
 		],
 		"description": "Wavelet Matrix"
+	},
+	"Max_Segtree": {
+	"prefix": "Max_SegtreeSnippet",
+	"body": [
+		"    auto op = [&](ll a, ll b) -> ll {",
+		"        return max(a, b);",
+		"    };",
+		"    auto e = [&]() -> ll { ",
+		"        return -INF;",
+		"    };",
+		"    segtree<ll, op, e> max_seg(N);"
+	],
+	"description": "区間maxセグ木"
+	},
+	"Min_Segtree": {
+	"prefix": "Min_SegtreeSnippet",
+	"body": [
+		"    auto op = [&](ll a, ll b) -> ll {",
+		"        return min(a, b);",
+		"    };",
+		"    auto e = [&]() -> ll { ",
+		"        return INF;",
+		"    };",
+		"    segtree<ll, op, e> min_seg(N);"
+	],
+	"description": "区間minセグ木"
 	}
 }
