@@ -56,13 +56,13 @@
 			"#define out(x) cout << (x) << \"\\n\"",
 			"#define fix cout << fixed <<  setprecision(15)",
 			"",
-			"ll ceilDiv (ll x, ll y){if(x >= 0){return (x+y-1)/y;}else{return x/y;}}",
-			"ll floorDiv (ll x, ll y){if(x >= 0){return x/y;}else{return (x-y+1)/y;}}",
+			"ll ceil_div (ll x, ll y){if(x >= 0){return (x+y-1)/y;}else{return x/y;}}",
+			"ll floor_div (ll x, ll y){if(x >= 0){return x/y;}else{return (x-y+1)/y;}}",
 			"",
 			"template <typename T> using pq = priority_queue<T>;",
 			"template <typename T> using pq_min = priority_queue<T, Vec<T>, greater<T>>;",
 			"",
-			"ll llpow(ll a, ll b) {",
+			"ll ll_pow(ll a, ll b) {",
 			"    ll res=1;",
 			"    rep(i, 0, b) res*=a;",
 			"    return res;",
@@ -122,12 +122,12 @@
 	"rle": {
 		"prefix": "rle",
 		"body": [
-			"    Vec<pair<char, ll>> rle;",
-			"    rle.push_back({S[0], 1});",
-			"    rep(i, 1, S.size()){",
-			"        if(S[i]==rle.back().first) rle.back().second++;",
-			"        else rle.push_back({S[i], 1});",
-			"    }",
+			"Vec<pair<char, ll>> rle;",
+			"rle.push_back({S[0], 1});",
+			"rep(i, 1, S.size()){",
+			"    if(S[i]==rle.back().first) rle.back().second++;",
+			"    else rle.push_back({S[i], 1});",
+			"}",
 		],
 		"description": "ランレングス圧縮",
 	},
@@ -159,30 +159,30 @@
 	"two_pointer": {
 		"prefix": "two_pointer",
 		"body": [
-			"    ll r=0;",
-			"    rep(i, 0, N){",
-			"        if (r < i) r = i;",
-			"        while(r<N && /* 条件を満たす場合 */){",
-			"          /* rightを進める処理 */",
-			"          r++;",
-			"        }",
-			"        /* ansの更新など */",
+			"ll r=0;",
+			"rep(i, 0, N){",
+			"    if (r < i) r = i;",
+			"    while(r<N && /* 条件を満たす場合 */){",
+			"      /* rightを進める処理 */",
+			"      r++;",
 			"    }",
+			"    /* ansの更新など */",
+			"}",
 		],
 		"description": "尺取り法",
 	},
 	"primes": {
 		"prefix": "primes",
 		"body": [
-			"    // 1e7以下の数に対するエラトステネスの篩",
-			"    const ll MAX_N = 10'000'000LL;",
-			"    Vec<ll> primes; // 素数",
-			"    Vec<bool> deleted(MAX_N+1); //true:すでにチェック済み",
-			"    rep(i, 2, MAX_N+1){",
-			"        if(deleted[i]) continue;",
-			"        primes.push_back(i);",
-			"        for(int j=i+i;j<MAX_N+1;j+=i) deleted[j]=true;",
-			"    }",
+			"// 1e7以下の数に対するエラトステネスの篩",
+			"const ll MAX_N = 10'000'000LL;",
+			"Vec<ll> primes; // 素数",
+			"Vec<bool> deleted(MAX_N+1); //true:すでにチェック済み",
+			"rep(i, 2, MAX_N+1){",
+			"    if(deleted[i]) continue;",
+			"    primes.push_back(i);",
+			"    for(int j=i+i;j<MAX_N+1;j+=i) deleted[j]=true;",
+			"}",
 		],
 		"description": "エラトステネスの篩",
 	},
@@ -229,26 +229,14 @@
 	"max_segtree": {
 		"prefix": "maxSegtree",
 		"body": [
-			"    auto op = [](ll a, ll b) -> ll {",
-			"        return max(a, b);",
-			"    };",
-			"    auto e = []() -> ll { ",
-			"        return -INF;",
-			"    };",
-			"    segtree<ll, op, e> max_seg(N);"
+			"segtree<ll, [](ll a, ll b){ return max(a, b); }, [](){ return -INF; }> max_seg(N);"
 		],
 		"description": "区間maxセグ木"
 	},
 	"min_segtree": {
 		"prefix": "min_segtree",
 		"body": [
-			"    auto op = [](ll a, ll b) -> ll {",
-			"        return min(a, b);",
-			"    };",
-			"    auto e = []() -> ll { ",
-			"        return INF;",
-			"    };",
-			"    segtree<ll, op, e> min_seg(N);"
+			"segtree<ll, [](ll a, ll b){ return min(a, b); }, [](){ return INF; }> min_seg(N);"
 		],
 		"description": "区間minセグ木"
 	},
@@ -294,62 +282,147 @@
 	"binary_search": {
 		"prefix": "binary_search",
 		"body": [
-			"auto binary_search = [&](ll x) -> bool {",
-			"   $0",
+			"ll l=-1, r=INF;",
+			"while(r-l>1){",
+			"    ll m=(l+r)/2;",
+			"    if(f(m)) l=m;",
+			"    else r=m;",
 			"};"
 		],
 		"description": "二分探索"
 	},
+	"graph(unweighted)": {
+		"prefix": "graph",
+		"body": [
+			"Vec<Vec<ll>> G(N);",
+			"rep(i, 0, M){",
+			"    ll u, v; cin >> u >> v; u--; v--;",
+			"    G[u].push_back(v); G[v].push_back(u);",
+			"}"
+		],
+		"description": "重みなしグラフ"
+	},
+	"graph(weighted)": {
+		"prefix": "graph",
+		"body": [
+			"Vec<Vec<pll>> G(N);",
+			"rep(i, 0, M){",
+			"    ll u, v, w; cin >> u >> v >> w; u--; v--;",
+			"    G[u].push_back({v, w}); G[v].push_back({u, w});",
+			"}"
+		],
+		"description": "重み付きグラフ"
+	},
 	"dijkstra": {
 		"prefix": "dijkstra",
 		"body": [
-			"    Vec<ll> dist(N, INF); dist[0]=0;",
-			"    pq_min<pll> q;",
-			"    q.push({0, 0}); //{その頂点への現時点の最小コスト, 頂点番号}",
+			"Vec<ll> dist(N, INF); dist[0]=0; // 始点は適宜変更要",
+			"pq_min<pll> q;",
+			"q.push({0, 0}); //{その頂点への現時点の最小コスト, 頂点番号}",
 			"",
-			"    while(!q.empty()){",
-			"        auto [c, to] = q.top(); q.pop();",
-			"        if(dist[to]!=c) continue; //確定している",
-			"        for(auto [nv, nc] : G[to]){",
-			"            if(dist[nv]<=c+nc) continue; //更新せず",
-			"            dist[nv]=c+nc;",
-			"            q.push({c+nc, nv});",
-			"        }",
-			"    }"
+			"while(!q.empty()){",
+			"    auto [c, to] = q.top(); q.pop();",
+			"    if(dist[to]!=c) continue; //確定している",
+			"    for(auto [nv, nc] : G[to]){",
+			"        if(dist[nv]<=c+nc) continue; //更新せず",
+			"        dist[nv]=c+nc;",
+			"        q.push({c+nc, nv});",
+			"    }",
+			"}"
 		],
 		"description": "ダイクストラ法"
 	},
-	"bfs": {
+	"bfs(graph)": {
 		"prefix": "bfs",
 		"body": [
-			"    Vec<ll> dist(N, INF); dist[0]=0;",
-			"    queue<ll> q; q.push(0);",
+			"Vec<ll> dist(N, INF); dist[0]=0;",
+			"queue<ll> q; q.push(0);",
 			"",
-			"    while(!q.empty()){",
-			"        auto v=q.front(); q.pop();",
-			"        for(auto to : G[v]){",
-			"            if(dist[to]<=dist[v]+1) continue;",
-			"            dist[to]=dist[v]+1;",
-			"            q.push(to);",
-			"        }",
-			"    }"
+			"while(!q.empty()){",
+			"    auto v=q.front(); q.pop();",
+			"    for(auto to : G[v]){",
+			"        if(dist[to]<=dist[v]+1) continue;",
+			"        dist[to]=dist[v]+1;",
+			"        q.push(to);",
+			"    }",
+			"}"
 		],
 		"description": "幅優先探索"
+	},
+	"bfs(grid)": {
+		"prefix": "bfs",
+		"body": [
+			"auto out_of_grid = [](ll y, ll x, ll H, ll W) -> bool {",
+			"    return (y < 0 || x < 0 || y >= H || x >= W);",
+			"};",
+			"",
+			"Vec<Vec<ll>> dist(H, Vec<ll>(W, INF));",
+			"queue<pll> q; q.push({0, 0}); dist[0][0]=0; // 始点は適宜変更要",
+			"",
+			"while(!q.empty()){",
+			"    auto [y, x]=q.front(); q.pop();",
+			"    rep(dir, 0, 4){",
+			"        ll ny=y+dy4[dir], nx=x+dx4[dir];",
+			"        if(outOfGrid(ny, nx, H, W)) continue;",
+			"        if(S[ny][nx]=='#') continue;",
+			"        if(dist[ny][nx]<=dist[y][x]+1) continue;",
+			"        dist[ny][nx]=dist[y][x]+1; q.push({ny, nx});",
+			"    }",
+			"}"
+		],
+		"description": ""
 	},
 	"dfs": {
 		"prefix": "dfs",
 		"body": [
-			"    Vec<bool> seen(N); seen[0]=true;",
-			"    auto dfs = [&](auto dfs, ll v) -> void {",
-			"        for(auto to : G[v]) {",
-			"            if(seen[to]) continue;",
-			"            seen[to]=true;",
-			"            dfs(dfs, to);",
-			"            // seen[to]=false;",
-			"        }",
-			"    }; dfs(dfs, 0);"
+			"Vec<bool> seen(N); seen[0]=true;",
+			"auto dfs = [&](auto dfs, ll v) -> void {",
+			"    for(auto to : G[v]) {",
+			"        if(seen[to]) continue;",
+			"        seen[to]=true;",
+			"        dfs(dfs, to);",
+			"        // seen[to]=false;",
+			"    }",
+			"}; dfs(dfs, 0);"
 		],
 		"description": "深さ優先探索"
+	},
+	"permutation": {
+		"prefix": "permutation",
+		"body": [
+			"Vec<ll> p(N); iota(all(perm), 0);",
+			"do {",
+			"    $0",
+			"} while(next_permutation(all(p)));"
+		],
+		"description": "順列全探索"
+	},
+	"rotate_cw": {
+		"prefix": "rotate_cw",
+		"body": [
+			"// 時計回りに90度回転",
+			"template <typename T>",
+			"Vec<Vec<T>> rotate_cw(const Vec<Vec<T>>& g) {",
+			"    int H = g.size();",
+			"    if (H == 0) return {};",
+			"    int W = g[0].size();",
+			"    Vec<Vec<T>> res(W, Vec<T>(H));",
+			"    rep(i, 0, H) rep(j, 0, W) {",
+			"        res[j][H - 1 - i] = g[i][j];",
+			"    }",
+			"    return res;",
+			"}"
+		],
+		"description": "時計回りに90度回転"
+	},
+	"pow10": {
+		"prefix": "pow10",
+		"body": [
+			"Vec<int128> pow10(39);",
+			"pow10[0] = 1;",
+			"rep(i, 1, 39) pow10[i] = pow10[i - 1] * 10;"
+		],
+		"description": "10のべき乗"
 	},
 	"RollingHash": {
 		"prefix": "RollingHash",
@@ -971,14 +1044,14 @@
 			"mint nhr(ll n, ll r){",
 			"    if (n == 0 && r == 0) return 1;",
 			"    if (n <= 0 || r < 0) return 0;",
-			"    return nCr(n+r-1, r);",
+			"    return ncr(n+r-1, r);",
 			"}",
 			"",
 			"// 階乗テーブルを使わない版 (nCr2 を利用)",
 			"mint nhr2(ll n, ll r){",
 			"    if (n == 0 && r == 0) return 1;",
 			"    if (n <= 0 || r < 0) return 0;",
-			"    return nCr2(n+r-1, r);",
+			"    return ncr2(n+r-1, r);",
 			"}",
 		],
 		"description": "組み合わせ",
