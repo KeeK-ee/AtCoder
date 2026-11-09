@@ -89,10 +89,53 @@ bool chmin(T &a, const T &b) {
     return false;
 }
 
+/**
+ * 各iについてrが[arg(i), arg(i)+pi)の間に存在する
+ * <->
+ * iとrの外積が正
+ */
 void solve() {
+
+    struct point { ll x, y; };
+    /**
+     * 外積
+     * 正：aはbより偏角が小さい
+     * 0：aとbの偏角は等しい
+     * 負：aはbより偏角が大きい
+     */
+    auto cross = [&](const point &a, const point &b) -> ll {
+        return a.x * b.y - a.y * b.x;
+    };
+    /**
+     * 偏角ソートの比較関数
+     * true：aの方が偏角が小さい(aが配列上で前に来る)
+     * false:bの方が偏角が小さい(bが配列上で前に来る)
+     */
+    auto cmp = [&](const point &a, const point &b) -> bool {
+        int ah = (a.y < 0 or (a.y == 0 and a.x < 0));
+        int bh = (b.y < 0 or (b.y == 0 and b.x < 0));
+        if (ah != bh) return ah < bh;
+        return cross(a, b) > 0;
+    };
+    auto argument_sort = [&](Vec<point> &points) {
+        sort(points.begin(), points.end(), cmp);
+    };
+
     ll N; cin >> N;
+    Vec<point> pnt(N);
+    rep(i, 0, N) cin >> pnt[i].x >> pnt[i].y;
+    argument_sort(pnt);
+    rep(i, N, 2*N) { pnt.push_back(pnt[i-N]); }
+
     ll ans=0;
-    
+    ll r=1;
+    rep(i, 0, N){
+        if (r <= i) r = i+1;
+        while(r<i+N && cross(pnt[i], pnt[r])>0){
+          r++;
+        }
+        chmax(ans, r-i);
+    }
     out(ans);
 }
 
