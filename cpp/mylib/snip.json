@@ -424,6 +424,36 @@
 		],
 		"description": "10のべき乗"
 	},
+	"argument_sort": {
+		"prefix": "argument_sort",
+		"body": [
+			"struct point { ll x, y; };",
+			"/**",
+			" * 外積",
+			" * 正：aはbより偏角が小さい",
+			" * 0：aとbの偏角は等しい",
+			" * 負：aはbより偏角が大きい",
+			" */",
+			"auto cross = [&](const point &a, const point &b) -> ll {",
+			"    return a.x * b.y - a.y * b.x;",
+			"};",
+			"/**",
+			" * 偏角ソートの比較関数",
+			" * true：aの方が偏角が小さい(aが配列上で前に来る)",
+			" * false:bの方が偏角が小さい(bが配列上で前に来る)",
+			" */",
+			"auto cmp = [&](const point &a, const point &b) -> bool {",
+			"    int ah = (a.y < 0 or (a.y == 0 and a.x < 0));",
+			"    int bh = (b.y < 0 or (b.y == 0 and b.x < 0));",
+			"    if (ah != bh) return ah < bh;",
+			"    return cross(a, b) > 0;",
+			"};",
+			"auto argument_sort = [&](Vec<point> &points) -> void {",
+			"    sort(points.begin(), points.end(), cmp);",
+			"};"
+		],
+		"description": "偏角ソート"
+	},
 	"RollingHash": {
 		"prefix": "RollingHash",
 		"body": [
