@@ -7,11 +7,11 @@
             "command": "g++",
             "args": [
                 "-g",
-                "-O2",                          // 追加: 最適化（AtCoder と同じ）
-                "-std=gnu++20",                 // gnu++ にすると __int128 など使える
+                "-O2",                         
+                "-std=gnu++20",                 
                 "-Wall",
-                "-Wextra",                      // 追加: より厳しめの警告
-                "-fsanitize=undefined,address", // 追加: デバッグ時に未定義動作を検出（任意）
+                "-Wextra",                      
+                "-fsanitize=undefined,address",
                 "-I",
                 "${workspaceFolder}/ac-library-master",
                 "${file}",
